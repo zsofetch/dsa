@@ -1,176 +1,95 @@
-//please dont mind the comments sir ty
 #include <stdio.h>
-#define MAX 10
-
+#define MAX 100
 
 typedef struct {
     int elem[MAX];
     int count;
 } List;
 
-
-List L;
-//this is a slay
 List initialize(List L) {
     L.count = 0;
     return L;
 }
-//something is kuwang sa if statement...
-List insertPos(List L, int data, int position) {  
-    if (position < 0 || position > L.count) {
-        printf("invalid\n");
-        return L;
+
+List insertPos(List L, int data, int position) {
+    // if (position < 1 || position > L.count + 1) {
+    //     printf("Position must be valid (less than or equal to count+1).\n");
+    //     return L;
+    // }
+    // if (L.count == MAX) {
+    //     printf("The array must not be full.\n");
+    //     return L;
+    // }
+    for (int i = L.count; i >= position; i--) {
+        L.elem[i] = L.elem[i - 1];
     }
-
-
-    for (int i = L.count - 1; i >= position; i--) {
-        L.elem[i + 1] = L.elem[i];
-    }
-
-
-    L.elem[position] = data;
+    L.elem[position - 1] = data;
     L.count++;
     return L;
 }
-
-
-//kuwang ug if statement
 List deletePos(List L, int position) {
-     if (position < 0 || position >= L.count) {
-        printf("invalid\n");
-        return L;
-    }
-
-
-    for (int i = position; i < L.count - 1; i++) {
+    // if (position < 1 || position > L.count) {
+    //     printf("Position must be valid (less than or equal to count).\n");
+    //     return L;
+    // }
+    for (int i = position - 1; i < L.count - 1; i++) {
         L.elem[i] = L.elem[i + 1];
     }
-
-
     L.count--;
     return L;
 }
 
-
-int locate (List L, int data) {
-    //printf("Enter data to find: ");
-    //scanf("%d", &data);
-
-
+int locate(List L, int data) {
     for (int i = 0; i < L.count; i++) {
-        if(L.elem[i] == data) {
-            return i;
+        if (L.elem[i] == data) {
+            return i + 1;
         }
     }
     return -1;
 }
-//kuwangan ug if statement
-List insertSorted (List L, int data) {
-    if (L.count >= MAX) {
-        printf("list is full silly!");
+
+List insertSorted(List L, int data) {
+    if (L.count == MAX) {
+        printf("The array must not be full.\n");
+        return L;
     }
-    int pos = 0;
- while (pos < L.count && L.elem[pos] < data) {
-        pos++;
-    }
-    for (int i = L.count - 1; i >= pos; i--) {
+    int i = L.count - 1;
+    while (i >= 0 && L.elem[i] > data) {
         L.elem[i + 1] = L.elem[i];
+        i--;
     }
-    L.elem[pos] = data;
+    L.elem[i + 1] = data;
     L.count++;
     return L;
 }
 
-
-
-
 void display(List L) {
     for (int i = 0; i < L.count; i++) {
-        printf("%d", L.elem[i]);
+        printf("%d ", L.elem[i]);
     }
+    printf("\n");
 }
 
-
-//fix the populated List
 int main() {
-    L = initialize(L);
+    List myList = initialize(myList);
 
+    myList = insertPos(myList, 1, 1);
+    myList = insertPos(myList, 3, 2);
+    myList = insertPos(myList, 2, 3);
+    myList = insertPos(myList, 5, 4);
+    printf("After insertPos:\n");
+    display(myList);
 
-    L = insertPos(L, 1, 0);
-    L = insertPos(L, 3, 1);
-    L = insertPos(L, 2, 1);
-    L = insertPos(L, 5, 3);
-   
-    display(L);
+    myList = deletePos(myList, 1);
+    printf("After deletePos:\n");
+    display(myList);
 
+    int pos = locate(myList, 2);
+    printf("Locate 2: %d\n", pos);
 
-    L = deletePos(L, 1);
-    display(L);
+    myList = insertSorted(myList, 4);
+    printf("After insertSorted:\n");
+    display(myList);
 
-
-    L = insertSorted(L, 4);
-    display(L);
-
-
+    return 0;
 }
-
-
-
-
-
-
-#include <stdio.h>
-#define MAX 10
-
-
-typedef struct {
-    int elem[MAX];
-    int count;
-} Etype, *EPtr;
-
-
-EPtr L;
-
-
-void initialize (EPtr L) {
-    L->count = 0;
-    return L;
-}
-
-
-void insertPos(EPtr L, int data, int position) {  
-    if (position < 0 || position > L->count) {
-        printf("invalid\n");
-        return L;
-    }
-
-
-    for (int i = L->count - 1; i >= position; i--) {
-        L->elem[i + 1] = L->elem[i];
-    }
-
-
-    L->elem[position] = data;
-    L->count++;
-    return L;
-}
-
-
-void deletePos(EPtr L, int position) {
-       if (position < 0 || position >= L->count) {
-        printf("invalid\n");
-        return L;
-    }
-
-
-    for (int i = position; i < L->count - 1; i++) {
-        L->elem[i] = L->elem[i + 1];
-    }
-
-
-    L->count--;
-    return L;
-}
-
-
-
