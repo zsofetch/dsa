@@ -11,6 +11,7 @@ typedef struct Node {
 //Because you are modifying the head pointer itself (changing where it points)
 //you pass its address - a pointer to a pointer
 
+
 void insertFirst (Node** head, int value) {
     Node* newNode = (Node*)malloc(sizeof(Node));
     newNode->data = value; //set its data
@@ -81,6 +82,9 @@ void printList(Node* head) {
         current = current->next; //move to the next node
     }
     printf("NULL\n");
+}
+
+void empty(Node *list) {
 }
 
 int main () {
