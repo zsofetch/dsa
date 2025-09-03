@@ -32,7 +32,7 @@ void insertPos(EPtr L, int data, int position) {
     L->count++;
 }
 void deletePos(EPtr L, int position) {
-    // if (position < 1 || position > L.count) {
+    // if (position < 1 || position > L.c00ount) {
     //     printf("Position must be valid (less than or equal to count).\n");
     //     return L;
     // }
