@@ -97,17 +97,24 @@ insertSorted(List L, int data) {
         //shifts the element one position to the right
        }
        L.elem[position] = data;
-       //Rr
+       /*L.elem[position] ~array access
+         data ~value to store*/
        L.count++;
     }
     return L;
 }
  
 void display (List L) {
+    for (int i = 0; i < L.count; i++) {
+        printf("%d", L.elem[i]);
 
+        //for commas
+        if (i < L.count -1) {
+            printf(" ,");
+        }
+    }
+    printf("\n");
 }
-
-
 
 
 
