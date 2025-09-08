@@ -1,5 +1,5 @@
 //please disregard comments :)) they're for my notes thank u!
-
+//to be debugged
 #include <stdio.h>
 #define MAX 10
 
