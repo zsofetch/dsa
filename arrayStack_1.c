@@ -1,4 +1,3 @@
-//to be debugged
 //top starts at -1 (empty stack)
 //top moves to the right (increments) as elements are pushed
 //if top = MAX - 1 then stack is full
@@ -24,16 +23,16 @@ void display(Stack* s);
 
 Stack* initialize() {
     Stack *s = (Stack*)malloc(sizeof(Stack)); //why are we malloc-ing
-    s->top = -1;
+    s->top = -1; //top is -1 (ure not pointing to any box yet)
     return s; //pointer to stack
 }
 
 bool isFull(Stack* s) {
-    return s->top == MAX - 1;
+    return s->top == MAX - 1; //s-top == MAX - 1 mean ure at the last box already
 }
 
 bool isEmpty(Stack* s) {
-    return s->top == -1;
+    return s->top == -1;  //top is -1 (ure not pointing to any box yet)
 }
 
 void push(Stack *s, int value) {
