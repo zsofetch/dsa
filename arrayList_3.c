@@ -18,11 +18,6 @@ List insertSorted(List L, int data);
 void display(List L);
 List resize(List L);
 
-Dynamically allocate memory for the array using LENGTH
-Set max to defined LENGTH
-Set the count to 0
-Return List
-
 List initialize(List L) {
 
     L.max = 4; //capacity of 4 elements
@@ -35,295 +30,172 @@ List initialize(List L) {
     L.count = 0; //empty list
     return L;
 
-
-
 }
-Reallocate the memory assigned to the array and double its length
-Double the max variable
-Return modified List
-
 
 List resize(List L) {
     L.max *= 2; // Equivalent to: L.max = L.max * 2
     /*double the capacity*/
 
     L.elem = (int*)realloc(L.elem, sizeof(int) * L.max);
-    /*resize existing memory block*/Note: realloc() automatically copies existing data to new memory
-    // and frees the old memory block
-    
+    /*resize existing memory block
+      ~reallocate the memory assigned to the array and double its length
+      ~resize existing memory block to new capacity
+      ~original pointer
+      ~new size in bytes (doubled)*/
     return L;
-    // ^^^^^^^^
-    // Return the modified list structure
 }
-
-// =============================================================================
-// INSERT AT POSITION FUNCTION
-// =============================================================================
 List insertPos(List L, int data, int position) {
-    // Function signature breakdown:
-    // - Return type: List (return the modified list)
-    // - Function name: insertPos
-    // - Parameters: List L (list to modify), int data (value), int position (where)
     
-    // STEP 1: Check if array is full and resize if necessary
-    if (L.count >= L.max) {
-        //  ^^^^^^^^^^^^^
-        // If current count equals or exceeds capacity
-        
-        L = resize(L);
-        //  ^^^^^^^^^^
-        // Call resize function to double capacity
-        // Assignment needed because we pass by value
+    if (L.count >= L.max) { // Check if the array is full (count equals or exceeds max)
+        L = resize(L); //if the array is full, call the resize function as per checklist
     }
-    
-    // STEP 2: Validate the position
+
     if (position >= 0 && position <= L.count) {
-        //     ^^^^^^^^^^^^   ^^^^^^^^^^^^^^^^^^
-        //     not negative   can insert at end
+       //not negative && position must be valid (less than or equal to count)
         
-        // STEP 3: Shift elements to the right to make space
-        int i; // Loop counter variable
-        
-        // for loop: start from last element, move backwards
-        for (i = L.count - 1; i >= position; i--) {
-            //   ^^^^^^^^^^^^^   ^^^^^^^^^^^^  ^^^^
-            //   start at last   continue while   move backwards
-            //   element         at or after pos
-            
-            // Move element at index i to index i+1
-            L.elem[i + 1] = L.elem[i];
-            // ^^^^^^^^^^^^     ^^^^^^^^^
-            // destination      source
-            // Access dynamically allocated array through pointer
+        /*shift elements right to make space for the position if necessary
+        for loop: start from last element, move backwards*/
+        for (int i = L.count - 1; i >= position; i--) {
+            /* start at last     continue while  move backwards
+               element           at or after pos*/
+
+            L.elem[i + 1] = L.elem[i]; // move element at index i+1 to index i
         }
-        
-        // STEP 4: Insert the new data at the specified position
-        L.elem[position] = data;
-        // ^^^^^^^^^^^^^^^   ^^^^
-        // Access array      value to store
-        // through pointer
-        
-        // STEP 5: Increment the count
-        L.count++; // Add one more element to count
-        // ^^^^^^^^
-        // Increment count of elements
+
+        L.elem[position] = data; //inserting element into specified position
+        L.count++; 
     }
-    
-    // STEP 6: Return the modified list
     return L;
-    // ^^^^^^^^
-    // Return the list structure (pass by value)
 }
 
-// =============================================================================
-// DELETE AT POSITION FUNCTION
-// =============================================================================
 List deletePos(List L, int position) {
-    // Function signature breakdown:
-    // - Return type: List (return the modified list)
-    // - Function name: deletePos
-    // - Parameters: List L (list to modify), int position (element to delete)
-    
-    // STEP 1: Validate the position
+  
     if (position >= 0 && position < L.count) {
-        //     ^^^^^^^^^^^^   ^^^^^^^^^^^^^^^^^^
-        //     not negative   within valid range
-        
-        // STEP 2: Shift elements to the left to fill the gap
-        int i; // Loop counter variable
-        
+        //position must be valid (less than count for deletion and not negative)
+
         // for loop: start from position being deleted, move forward
-        for (i = position; i < L.count - 1; i++) {
-            //  ^^^^^^^^^^^^^   ^^^^^^^^^^^^^^^  ^^^^
-            //  start at pos    continue until   move forward
-            //  to delete       second to last
-            
-            // Move element at index i+1 to index i
+        for (int i = position; i < L.count - 1; i++) {
+           
             L.elem[i] = L.elem[i + 1];
-            // ^^^^^^^^^     ^^^^^^^^^^^^^
-            // destination   source
-            // Shift elements left through pointer access
         }
-        
-        // STEP 3: Decrement the count
-        L.count--; // Remove one element from count
-        // ^^^^^^^^
-        // Decrement count of elements
+        L.count--; 
     }
-    
-    // STEP 4: Return the modified list
     return L;
-    // ^^^^^^^^
-    // Return the list structure (pass by value)
 }
 
-// =============================================================================
-// LOCATE FUNCTION
-// =============================================================================
 int locate(List L, int data) {
-    // Function signature breakdown:
-    // - Return type: int (return position where found, or -1)
-    // - Function name: locate
-    // - Parameters: List L (list to search), int data (value to find)
-    
-    // STEP 1: Initialize loop counter
-    int i; // Loop counter variable
-    
-    // STEP 2: Loop through the array to search for the data
-    for (i = 0; i < L.count; i++) {
-        //  ^^^^^^   ^^^^^^^^^^^  ^^^^
-        //  start at continue while move forward
-        //  first    within valid   to next
-        //  element  elements       element
-        
-        // STEP 3: Check if current element matches search data
+  
+    //loop through the array and return the position of the data if found
+    for (int i = 0; i < L.count; i++) {
+        /* i = 0 ~start at first element
+           i < L.count = 0 ~continue while within valid elements
+           i++ ~move forward*/ 
         if (L.elem[i] == data) {
-            // ^^^^^^^^^    ^^^^
-            // current      value we're
-            // element      searching for
-            // Access through pointer
-            
-            // STEP 4: Found it! Return the position
             return i;
-            // ^^^^^^^^
-            // Return the index where data was found
+            //return the position of the data if found
         }
     }
-    
-    // STEP 5: Data not found
     return -1;
-    // ^^^^^^^^
-    // Return -1 as sentinel value for "not found"
 }
-
-// =============================================================================
-// INSERT SORTED FUNCTION
-// =============================================================================
 List insertSorted(List L, int data) {
-    // Function signature breakdown:
-    // - Return type: List (return the modified sorted list)
-    // - Function name: insertSorted
-    // - Parameters: List L (sorted list), int data (value to insert)
-    
-    // STEP 1: Check if array is full and resize if necessary
+  
     if (L.count >= L.max) {
-        //  ^^^^^^^^^^^^^
-        // If current count equals or exceeds capacity
-        
         L = resize(L);
-        //  ^^^^^^^^^^
-        // Call resize function to double capacity
+        //if the array is full, call the resize function as per checklist
     }
     
-    // STEP 2: Find the correct position to insert the data
-    int position = 0; // Start from beginning
-    
-    // Loop to find insertion position for sorted order
+    //insert the element into the correct position based on the value
+    int position = 0; // start from beginning
     while (position < L.count && L.elem[position] < data) {
-        //     ^^^^^^^^^^^^^^^^^^    ^^^^^^^^^^^^^^^^^^^^^^
-        //     not at end yet       current element smaller
+        //  ^^^^^^^^^^^^^^^^^^    ^^^^^^^^^^^^^^^^^^^^^^
+        //   not at end yet       current element smaller
         //                          than data to insert
-        
-        position++; // Move to next position
-        // ^^^^^^^^^^
-        // Check next position
+        position++; // move to next position
     }
-    
-    // STEP 3: Shift elements to the right to make space
-    int i; // Loop counter variable
-    
     // for loop: start from last element, move backwards
-    for (i = L.count - 1; i >= position; i--) {
+    for (int i = L.count - 1; i >= position; i--) {
         //   ^^^^^^^^^^^^^   ^^^^^^^^^^^^  ^^^^
         //   start at last   continue while   move backwards
         //   element         at or after pos
         
-        // Move element at index i to index i+1
         L.elem[i + 1] = L.elem[i];
-        // ^^^^^^^^^^^^     ^^^^^^^^^
-        // destination      source
     }
     
-    // STEP 4: Insert the new data at the found position
     L.elem[position] = data;
-    // ^^^^^^^^^^^^^^^   ^^^^
-    // Insert at correct sorted position
-    
-    // STEP 5: Increment the count
-    L.count++; // Add one more element
-    // ^^^^^^^^
-    
-    // STEP 6: Return the modified list
+    // Insert the element into the correct position based on the value
+    L.count++; 
     return L;
-    // ^^^^^^^^
-    // Return the sorted list structure
 }
 
-// =============================================================================
-// DISPLAY FUNCTION
-// =============================================================================
 void display(List L) {
-    // Function signature breakdown:
-    // - Return type: void (no return value)
-    // - Function name: display
-    // - Parameters: List L (list to display)
-    
-    // STEP 1: Print opening bracket
-    printf("[");
-    
-    // STEP 2: Loop through all valid elements
-    int i; // Loop counter variable
-    
-    // for loop: iterate through all elements
-    for (i = 0; i < L.count; i++) {
-        //  ^^^^^^   ^^^^^^^^^^^  ^^^^
-        //  start at continue while move forward
-        //  first    within valid   to next
-        //  element  elements       element
+    for (int i = 0; i < L.count; i++) {
         
-        // STEP 3: Print the current element
+        //display each element of the array until count is reached
         printf("%d", L.elem[i]);
-        //     ^^^^  ^^^^^^^^^
-        //     format current element
-        //     specifier accessed through pointer
-        
-        // STEP 4: Print comma separator (except for last element)
+        //comma separator (except for last element)
         if (i < L.count - 1) {
-            //     ^^^^^^^^^^^^^
-            // Not the last element
-            
+            // not the last element
             printf(", ");
-            // Print separator
         }
     }
-    
-    // STEP 5: Print closing bracket and newline
-    printf("]\n");
-    printf("Count: %d, Max: %d\n", L.count, L.max);
-    //     ^^^^^^^^^^^^^^^^^^^^
-    // Show current count and capacity for debugging
+    printf("Count: %d, Max: %d\n", L.count, L.max); //current count and capacity
 }
 
-// =============================================================================
-// CLEANUP FUNCTION (IMPORTANT FOR DYNAMIC MEMORY)
-// =============================================================================
-void cleanup(List L) {
-    // Function signature breakdown:
-    // - Return type: void (no return value)
-    // - Function name: cleanup
-    // - Parameters: List L (list to clean up)
+//optional helper functions
+
+/*for insertFirst call insert first then add position 0
+indicating youre inserting at index 0*/
+List insertFirst(List L, int data) {
+    return insertPos(L, data, 0);
+}
+
+/*for insertLast you do the same but you insert at the 
+last position or L.count*/
+List insertLast(List L, int data) {
+    return insertPos(L, data, L.count);
+}
+
+List deleteFirst(List L) {
+    return deletePos(L, 0);
+}
+
+List deleteLast(List L) {
+    // Delete at position L.count-1 (last element)
+    if (L.count > 0) { // Check if list is not empty before deleting last element
+        return deletePos(L, L.count - 1);
+    }
+    return L; // return unchanged list if empty
+}
+
+List deleteByValue(List L, int data) {
+    // Function uses combination of locate and deletePos as mentioned in the note
     
-    // STEP 1: Free the dynamically allocated memory
+    int position = locate(L, data);
+    //  ^^^^^^^^   ^^^^^^^^^^^^^^^
+    //find position  Use locate function to find where data is located
+    
+    //if data was found (position != -1), use deletePos to remove it
+    if (position != -1) {
+        L = deletePos(L, position);
+    }
+    return L;
+}
+
+void cleanup(List L) {
     if (L.elem != NULL) {
-        //  ^^^^^^^^^^^^^^
         // Check if pointer is not NULL (safety check)
-        
         free(L.elem);
-        //   ^^^^^^^^^
-        // Free the memory allocated by malloc/realloc
-        // This prevents memory leaks
     }
     
     // Note: After calling free(), the pointer becomes invalid
     // In a real program, you might want to set L.elem = NULL
+}
+
+int main () {
+List myList;
+myList = initialize(myList);
+myList = insertPos(myList, 10, 0);
+myList = insertSorted(myList, 5);
+display(myList);
+free(myList);
 }
