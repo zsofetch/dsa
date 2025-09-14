@@ -1,0 +1,307 @@
+//Array Queue implementation (Variation 2) - Circular queue with sacrificial space
+//Sacrificial space is always the space before front: [(front - 1 + MAX) % MAX]
+
+#include <stdio.h>  
+#include <stdlib.h> 
+#include <stdbool.h> 
+#define MAX 10
+
+typedef struct {
+    int items[MAX];  // Array to store queue elements
+    int front;       // Index of the front and rear elements
+    int rear;        
+} Queue;
+
+Queue* initialize();
+bool isEmpty(Queue* q);
+bool isFull(Queue* q);
+bool enqueue(Queue* q, int value);
+int dequeue(Queue* q);
+int front_element(Queue* q);
+void display(Queue* q);
+
+Queue* initialize() {
+    // Allocate memory for the Queue structure
+    Queue* q = (Queue*)malloc(sizeof(Queue));
+    
+    if (q == NULL) {
+        printf("Memory allocation failed!\n");
+        return NULL;
+    }
+    
+    // Initialize front to 1 and rear to 0
+    // This creates the initial sacrificial space at index 0
+    q->front = 1;
+    q->rear = 0;
+    
+    // gi initialize nkong array elements to 0 pero optional rani js for a cleaner display
+    for (int i = 0; i < MAX; i++) {
+        q->items[i] = 0;
+    }
+    
+    // Return the pointer to the initialized queue
+    return q;
+}
+
+bool isEmpty(Queue* q) {
+    if (q == NULL) {
+        return true; // Consider NULL queue as empty
+    }
+    
+    // Queue is empty if front == (rear + 1) % MAX this means the sacrificial space is immediately before the front
+    /* ~ kay lets say the rear is 0 so 0+1 % 5 (MAX) and 1 modulo 5 = 1 so front == to 1 because 0 is the sacrificial space*/
+    // This means the sacrificial space is immediately before front
+    return (q->front == (q->rear + 1) % MAX);
+}
+bool isFull(Queue* q) {
+    if (q == NULL) {
+        return false; // Consider NULL queue as not full
+    }
+    
+    // Queue is full if front == (rear + 2) % MAX
+    /* so let's */
+    // This means there's only one empty space (the sacrificial space) left
+    return (q->front == (q->rear + 2) % MAX);
+}
+
+// Enqueue (add) a new value to the rear of the queue
+bool enqueue(Queue* q, int value) {
+    // Check if the queue pointer is valid
+    if (q == NULL) {
+        printf("Invalid queue!\n");
+        return false; // Operation failed
+    }
+    
+    // Check if the queue is full
+    if (isFull(q)) {
+        printf("Queue is full! Cannot enqueue %d.\n", value);
+        return false; // Operation failed
+    }
+    
+    // Increment the rear pointer circularly
+    // rear = (rear + 1) % MAX
+    q->rear = (q->rear + 1) % MAX;
+    
+    // Insert the new element at the new rear position
+    q->items[q->rear] = value;
+    
+    printf("Enqueued %d at position %d\n", value, q->rear);
+    return true; // Operation successful
+}
+
+// Dequeue (remove and return) the front value from the queue
+int dequeue(Queue* q) {
+    // Check if the queue is empty
+    if (isEmpty(q)) {
+        printf("Queue is empty! Cannot dequeue.\n");
+        return -1; // Return -1 as error indicator
+    }
+    
+    // Get the element at the front of the queue
+    int data = q->items[q->front];
+    
+    printf("Dequeued %d from position %d\n", data, q->front);
+    
+    // Optional: Clear the dequeued position (for cleaner display)
+    q->items[q->front] = 0;
+    
+    // Increment the front pointer circularly
+    // front = (front + 1) % MAX
+    q->front = (q->front + 1) % MAX;
+    
+    // Return the dequeued element
+    return data;
+}
+
+// Get the front element without removing it from the queue
+int front_element(Queue* q) {
+    // Check if the queue is empty
+    if (isEmpty(q)) {
+        printf("Queue is empty! Cannot get front element.\n");
+        return -1; // Return -1 as error indicator
+    }
+    
+    // Return the element at the current front position
+    return q->items[q->front];
+}
+
+// Display all elements in the queue from front to rear
+void display(Queue* q) {
+    // Check if the queue is empty
+    if (isEmpty(q)) {
+        printf("Queue is empty!\n");
+        return; // Nothing to display
+    }
+    
+    printf("Queue elements (front to rear): ");
+    
+    // Calculate the sacrificial space position
+    int sacrificial = (q->front - 1 + MAX) % MAX;
+    
+    // Start from front and loop through the queue circularly until rear
+    int current = q->front;
+    
+    // Loop through the queue from front to rear
+    while (true) {
+        printf("%d ", q->items[current]);
+        
+        // If we've reached the rear, break
+        if (current == q->rear) {
+            break;
+        }
+        
+        // Move to next position circularly
+        current = (current + 1) % MAX;
+    }
+    
+    printf("\n");
+    
+    // Display queue status information
+    printf("Front index: %d, Rear index: %d, Sacrificial space: %d\n", 
+           q->front, q->rear, sacrificial);
+}
+
+// Display the entire array with markers for better understanding
+void displayArray(Queue* q) {
+    if (q == NULL) {
+        printf("Invalid queue!\n");
+        return;
+    }
+    
+    printf("\nComplete array view:\n");
+    printf("Index: ");
+    for (int i = 0; i < MAX; i++) {
+        printf("%2d ", i);
+    }
+    printf("\n");
+    
+    printf("Value: ");
+    for (int i = 0; i < MAX; i++) {
+        printf("%2d ", q->items[i]);
+    }
+    printf("\n");
+    
+    printf("Marker:");
+    for (int i = 0; i < MAX; i++) {
+        if (i == q->front && i == q->rear && !isEmpty(q)) {
+            printf(" FR");  // Both front and rear (single element)
+        } else if (i == q->front) {
+            printf(" F ");  // Front
+        } else if (i == q->rear) {
+            printf(" R ");  // Rear
+        } else if (i == (q->front - 1 + MAX) % MAX) {
+            printf(" S ");  // Sacrificial space
+        } else {
+            printf("   ");  // Empty or regular space
+        }
+    }
+    printf("\n");
+    printf("F=Front, R=Rear, S=Sacrificial, FR=Front&Rear\n\n");
+}
+
+// Helper function to free the queue structure
+void destroyQueue(Queue* q) {
+    if (q != NULL) {
+        free(q);
+    }
+}
+
+// Main function to demonstrate the queue operations
+int main() {
+    // Initialize an empty queue
+    Queue* myQueue = initialize();
+    
+    // Check if initialization was successful
+    if (myQueue == NULL) {
+        return 1; // Exit with error code
+    }
+    
+    // Test queue operations
+    printf("=== Array Queue Operations Demo (Variation 2) ===\n");
+    printf("Queue with sacrificial space - MAX size: %d\n\n", MAX);
+    
+    printf("Initial state:\n");
+    displayArray(myQueue);
+    
+    // Test isEmpty on empty queue
+    printf("Is queue empty? %s\n", isEmpty(myQueue) ? "Yes" : "No");
+    printf("Is queue full? %s\n\n", isFull(myQueue) ? "Yes" : "No");
+    
+    // Test enqueue operations
+    printf("=== Enqueue Operations ===\n");
+    enqueue(myQueue, 10);
+    displayArray(myQueue);
+    
+    enqueue(myQueue, 20);
+    displayArray(myQueue);
+    
+    enqueue(myQueue, 30);
+    displayArray(myQueue);
+    
+    enqueue(myQueue, 40);
+    displayArray(myQueue);
+    
+    // Display current queue
+    display(myQueue);
+    
+    // Test front operation
+    printf("Front element: %d\n\n", front_element(myQueue));
+    
+    // Test dequeue operations
+    printf("=== Dequeue Operations ===\n");
+    dequeue(myQueue);
+    displayArray(myQueue);
+    
+    dequeue(myQueue);
+    displayArray(myQueue);
+    
+    // Display queue after dequeuing
+    display(myQueue);
+    
+    // Test mixed operations (enqueue after dequeue)
+    printf("=== Mixed Operations ===\n");
+    printf("Adding more elements to test circular behavior:\n");
+    enqueue(myQueue, 50);
+    enqueue(myQueue, 60);
+    enqueue(myQueue, 70);
+    displayArray(myQueue);
+    
+    // Fill up the queue to test full condition
+    printf("Filling up the queue:\n");
+    for (int i = 80; i <= 120; i += 10) {
+        if (!enqueue(myQueue, i)) {
+            break; // Stop when queue is full
+        }
+    }
+    displayArray(myQueue);
+    
+    // Test full condition
+    printf("Is queue full? %s\n", isFull(myQueue) ? "Yes" : "No");
+    
+    // Try to enqueue when full
+    printf("Attempting to enqueue when full:\n");
+    enqueue(myQueue, 999);
+    
+    // Test dequeue until empty
+    printf("\n=== Emptying the Queue ===\n");
+    while (!isEmpty(myQueue)) {
+        dequeue(myQueue);
+        if (!isEmpty(myQueue)) {
+            displayArray(myQueue);
+        }
+    }
+    
+    printf("Final state - empty queue:\n");
+    displayArray(myQueue);
+    
+    // Test operations on empty queue
+    printf("Testing operations on empty queue:\n");
+    display(myQueue);
+    dequeue(myQueue);
+    printf("Front result: %d\n", front_element(myQueue));
+    
+    // Clean up memory
+    destroyQueue(myQueue);
+    
+    return 0; // Successful program termination
+}
