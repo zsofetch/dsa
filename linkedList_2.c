@@ -74,7 +74,6 @@ void insertLast(List *list, int data) {
     list->count++;
 }
 
-// Insert at a specific position
 void insertPos(List *list, int data, int index) {
     if (index < 0 || index > list->count) {
         printf("Invalid index!\n");
@@ -100,7 +99,6 @@ void insertPos(List *list, int data, int index) {
     }
 }
 
-// Delete the first node
 void deleteStart(List *list) {
     if (list->head == NULL) return;              // nothing to delete
 
@@ -110,7 +108,6 @@ void deleteStart(List *list) {
     list->count--;
 }
 
-// Delete the last node
 void deleteLast(List *list) {
     if (list->head == NULL) return;              // list is empty
 
@@ -128,7 +125,6 @@ void deleteLast(List *list) {
     list->count--;
 }
 
-// Delete at a specific position
 void deletePos(List *list, int index) {
     if (index < 0 || index >= list->count) {
         printf("Invalid index!\n");
@@ -150,7 +146,6 @@ void deletePos(List *list, int index) {
     }
 }
 
-// Get data at a position
 int retrieve(List *list, int index) {
     if (index < 0 || index >= list->count) {
         printf("Invalid index!\n");
@@ -179,7 +174,6 @@ int locate(List *list, int data) {
     return -1;                                   // not found
 }
 
-// Display all nodes
 void display(List *list) {
     Node *current = list->head;
     printf("List elements: ");
@@ -190,14 +184,13 @@ void display(List *list) {
     printf("\n");
 }
 
-// ---------------- MAIN TEST ----------------
 int main() {
     List *myList = initialize();
 
     insertFirst(myList, 10);
     insertLast(myList, 20);
     insertLast(myList, 30);
-    insertPos(myList, 15, 1);   // insert 15 at index 1
+    insertPos(myList, 15, 1);   
     display(myList);
 
     deleteStart(myList);
@@ -208,7 +201,7 @@ int main() {
     printf("Element at index 0: %d\n", retrieve(myList, 0));
     printf("Index of 20: %d\n", locate(myList, 20));
 
-    empty(myList); // free all memory
+    empty(myList);0.
     free(myList);  // free the list struct itself
     return 0;
 }
