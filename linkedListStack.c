@@ -60,7 +60,6 @@ bool push(Stack* s, int value) {
     
     Node* newNode = (Node*)malloc(sizeof(Node));
     
-    // check if malloc was successful
     if (newNode == NULL) {
         printf("Memory allocation failed!\n");
         return false;
@@ -77,10 +76,11 @@ bool push(Stack* s, int value) {
     // (making the new node the new top of the stack)
     s->top = newNode;
     
-    return true; // Operation successful
+    return true;
 }
 
-// Pop (remove and return) the top value from the stack
+
+//popping variation 1
 int pop(Stack* s) {
     if (isEmpty(s)) {
         printf("Stack is empty! Cannot pop.\n");

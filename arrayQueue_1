@@ -1,3 +1,5 @@
+//to debug pani
+
 #include <stdio.h>
 #include <stdbool.h>
 #include <stdlib.h>
@@ -73,16 +75,12 @@ int dequeue(Queue* q) {
     // - Parameters: Queue* q (pointer to queue)
     
     int removedValue = -1; // Default return value for empty queue
-    //  ^^^^^^^^^^^^   ^^^^
     // Variable to store  Default value if queue is empty
     // the removed value
     
     // STEP 1: Check if the queue is empty
     if (!isEmpty(q)) {
-        //  ^^^^^^^^^^^^
-        // Check if the queue is empty (if not empty, proceed)
-        // Using negation (!) to check if queue is NOT empty
-        
+       
         // STEP 2: Store the value found at the front of the queue before it is removed
         removedValue = q->list.items[q->front];
         //             ^^^^^^^^^^^^^^^^^^^^^^^
@@ -124,9 +122,6 @@ int dequeue(Queue* q) {
     // Return the removed value as per checklist
 }
 
-// =============================================================================
-// FRONT FUNCTION
-// =============================================================================
 int front(Queue* q) {
     // Function signature breakdown:
     // - Return type: int (return the front value without removing it)
@@ -151,9 +146,6 @@ int front(Queue* q) {
     // Return default value if queue is empty
 }
 
-// =============================================================================
-// DISPLAY FUNCTION
-// =============================================================================
 void display(Queue* q) {
     // Function signature breakdown:
     // - Return type: void (no return value, prints to console)

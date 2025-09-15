@@ -1,5 +1,6 @@
 //Array Queue implementation (Variation 2) - Circular queue with sacrificial space
 //Sacrificial space is always the space before front: [(front - 1 + MAX) % MAX]
+//to be debugged
 
 #include <stdio.h>  
 #include <stdlib.h> 

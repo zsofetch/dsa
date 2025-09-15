@@ -24,6 +24,7 @@ List initialize(List L) {
     return L;
 }
 
+//this is insert first
 List insertPos(List L, int data, int position) {
     /*make an if statement
     position >= 0 ~no negative numbers

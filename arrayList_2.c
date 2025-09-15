@@ -1,7 +1,9 @@
 //disregard comments
-//to be debugged
+//debugged
 
 #include <stdio.h>
+#include <stdlib.h>
+
 #define MAX 100
 
 typedef struct {
@@ -9,15 +11,16 @@ typedef struct {
     int count;
 } Etype, *EPtr;
 
-EPtr L;
-
 // Etype is the structure, EPtr is a pointer to the structure
 
-void initialize(EPtr L) {
-    L->count = 0;
+EPtr initialize() {
+    EPtr L = (EPtr)malloc(sizeof(Etype)); // allocate memory for the struct
+    L->count = 0;                         // set the count to 0
+    return L;                             // return the list
 }
 
 void insertPos(EPtr L, int data, int position) {
+    if (L == NULL) return;
     /*put an if statement for when list is NULL
       Position must be valid (less than or equal to count)
       basically same ra siya with static by value except we use the arrow operator and we dont return L*/
@@ -37,13 +40,17 @@ void deletePos(EPtr L, int position) {
           printf("Position must be valid (less than or equal to count).\n");
            return L; }
     */
-    for (int i = position - 1; i < L->count - 1; i++) {
+    if (L == NULL) return;
+    if(position >= 0 && position <= L->count) {
+    for (int i = position; i < L->count - 1; i++) {
         L->elem[i] = L->elem[i + 1];
-    }
+        }
     L->count--;
+    }
 }
 
 int locate(EPtr L, int data) {
+    if (L == NULL) return -1;
     for (int i = 0; i < L->count; i++) {
         if (L->elem[i] == data) {
             return i; //return current index/position
@@ -53,6 +60,7 @@ int locate(EPtr L, int data) {
 }
 
 int retrieve (EPtr L, int position) {
+    if (L == NULL) return -1;
      if (position >= 0 && position < L->count) { //position must be valid (not negative within valid range)
          return L->elem[position]; //access elem array at given position through pointer
     }
@@ -61,6 +69,7 @@ int retrieve (EPtr L, int position) {
 
 void insertSorted(EPtr L, int data) {
 
+    if (L == NULL) return;
     //check if array is full
     if (L->count < MAX) { // Access count through pointer to ensure space available
         int position = 0; 
@@ -88,9 +97,9 @@ void insertSorted(EPtr L, int data) {
 }
 
 void display(EPtr L) {
+    if (L == NULL) return;
     for (int i = 0; i < L->count; i++) {
         printf("%d ", L->elem[i]);
-
         //for commas
         if (i < L->count - 1) {
             printf(", ");
@@ -98,28 +107,29 @@ void display(EPtr L) {
     }
     printf("\n");
 }
-  
-//main is to be modified
-int main() {
-    EPtr L myList = initialize(myList);
 
-    myList = insertPos(myList, 1, 1);
-    myList = insertPos(myList, 3, 2);
-    myList = insertPos(myList, 2, 3);
-    myList = insertPos(myList, 5, 4);
+int main() {
+    EPtr myList = initialize();
+
+    insertPos(myList, 1, 0);
+    insertPos(myList, 3, 1);
+    insertPos(myList, 2, 2);
+    insertPos(myList, 5, 3);
+
     printf("After insertPos:\n");
     display(myList);
 
-    myList = deletePos(myList, 1);
+    deletePos(myList, 1);
     printf("After deletePos:\n");
     display(myList);
 
     int pos = locate(myList, 2);
     printf("Locate 2: %d\n", pos);
 
-    myList = insertSorted(myList, 4);
+    insertSorted(myList, 4);
     printf("After insertSorted:\n");
     display(myList);
 
+    free(myList); // free allocated memory
     return 0;
 }

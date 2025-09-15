@@ -1,230 +1,135 @@
+//=========fill the code -- array list variation 1=========
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdbool.h>
 
-typedef struct node {
-    int data;
-    struct node *next;
-} Node;
+#define MAX 10
 
-typedef struct { //a list 
-    Node *head; //this is a pointer to the next node
+typedef struct {
+    int elem[MAX];
     int count;
 } List;
 
-List* initialize();
-void empty(List *list);
-void insertFirst(List *list, int data);
-void insertLast(List *list, int data);
-void insertPos(List *list, int data, int index);
-void deleteStart(List *list);
-void deleteLast(List *list);
-void deletePos(List *list, int index);
-int retrieve(List *list, int index);
-int locate(List *list, int data);
-void display(List *list);
+List L;
 
-// Function implementations
+List initialize(List L);
+List insertPos(List L, int data, int position);
+List deletePos(List L, int position);
+int locate(List L, int data);
+List insertSorted(List L, int data);
+void display(List L);
 
-List* initialize() {
-    List *list = (List*)malloc(sizeof(List));
-    if (list == NULL) {
-        return NULL;
+List initialize(List L) {
+    //set count to 0
+    //return L
+}
+
+//this is insert first
+List insertPos(List L, int data, int position) {
+    // make an if statement to validate
+    if (if position isn't a negative number && position is within the bounds of count && count doesn't exceed MAX) {
+       // make a for loop -- shift elements to the right to make space (start from last element then move backwards)
+       for (start at the last valid index; i is at or after the target position; move backwards) {
+       //shift elements from one position to the right
+        destination/next index position = source;
+       }
+       //the position is free so place your new data
+       access array with position = value to store;
+
+       //increment
+
     }
-    list->head = NULL;
-    list->count = 0;
-    return list;
+    //return the list
+
 }
 
-void empty(List *list) {
-    Node *current = list->head;
-    while (current != NULL) {
-        Node *temp = current;
-        current = current->next;
-        free(temp);
-    } 
-    list->head = NULL;
-    list->count = 0;
+List deletePos(List L, int position) {
+    //make an if statement to validate
+  if (position to delete is greater or equal to 0 && position is less than or equal to count) {
+    //shift elements to the left; start from the position being deleted 
+    for (initialize i as the position to delete; i is less than second to the last position; move forward) {
+      //shift element one position to the left
+      source = destination/next index position
+    }
+    //decrement
+
+  }
+  //return L
+
 }
 
-void insertFirst(List *list, int data) {
-    Node *newNode = (Node*)malloc(sizeof(Node));
-    // if (newNode == NULL) return; //need ba ni?
-    newNode->data = data;
-    newNode->next = list->head;
-    list->head = newNode;
-    list->count++;
-}
+int locate(List L, int data) {
+    //make a standard for loop for traversing through the array
+    for (initialize i to 0; i should be less than count; move forward) {
+        //if statement to check if data to locate is equal to the array element
+        if (the element in that index == data) {
+            //return the index
 
-void insertLast(List *list, int data) {
-    Node *newNode = (Node*)malloc(sizeof(Node));
-    // if (newNode == NULL) return;
-    // newNode->data = data;
-    // newNode->next = NULL;
-
-    newNode->data = data;
-    newNode->next = NULL;
-
-    if (list->head == NULL) {
-        list->head = newNode;
-    } else {
-        Node *current = list->head;
-        while(current->next != NULL) {
-            current = current->next; //ambot
         }
-        current->next = newNode;
     }
-    list->count++;
+    //return -1 if not found
 }
 
-void insertPos(List *list, int data, int index) {
-    if (index < 0 || index > list->count)
-    return;
-    
-    if(index == 0) {
-        insertFirst(list, data);
-        return;
+insertSorted(List L, int data) {
+    //make an if statement
+    if (count does not exceed MAX) { 
+        //initialize the position to 0
+
+        //make a while loop 
+        while(position does not exceed count && the element in that position is less than the data to insert) {
+            //increment and move to the next position
+
+        }
+        //make a for loop
+        for (initialize i to the second to the last index; continue while i is at or after the target position; move backwards) {
+            //shift elements one position to the right
+            destination = source;
+        }
+        //access the element in that position and store the value
+
+        //increment the count of L
+
     }
-    if (index == list->count) {
-        insertLast(list, data);
-        return;
+    //return list
+
+}
+ 
+void display (List L) {
+    //make a standard for loop for traversing through the array 
+    for (initialize i to 0; i should be less than count; move forward) {
+        //print the value in every index (L.elem[i])
+
+        //for commas
+        //make an if statement and print commas every after the value except the last value
+        if (i is less than the count - 1) {
+            printf(" ,");
+        }
     }
-
-    Node *newNode = (Node*)malloc(sizeof(Node));
-    
-    if (newNode == NULL)
-    return;
-
-    newNode->data = data;
-
-    
-
-    Node *current = list->head;
-    for (int i = 0; i < index - 1; i++) {
-        current = current->next;
-    }
-    newNode->next = current->next;
-    current->next = newNode;
-    list->count++;
+    printf("\n");
 }
 
-void deleteStart(List *list) {
-    if (list->head == NULL) return;
-
-    Node *temp = list->head;
-    list->head = list->head->next;
-    free(temp);
-    list->count--;
-}
-
-void deleteLast(List *list) {
-    if (list->head == NULL) return;
-
-    if (list->head->next == NULL) {
-        free(list->head);
-        list->head = NULL;
-        list->count--;
-        return;
-    }
-
-    Node *current = list->head;
-    for (int i = 0; i < list->count - 2; i++) {
-        current = current->next;
-    }
-    free(current->next);
-    current->next = NULL;
-    list->count--;
-}
-
-void deletePos(List *list, int index) {
-    if (index < 0 || index >= list->count) return;
-
-    if (index == 0) {
-        deleteStart(list);
-        return;
-    }
-
-    Node *current = list->head;
-    for (int i = 0; i < index - 1; i++) {
-        current = current->next;
-    }
-    Node *temp = current->next;
-    current->next = temp->next;
-    free(temp);
-    list->count--;
-}
-
-int retrieve(List *list, int index) {
-    if (index < 0 || index >= list->count) return -1;
-
-    Node *current = list->head;
-    for (int i = 0; i < index; i++) {
-        current = current->next;
-    }
-    return current->data;
-}
-
-int locate(List *list, int data) {
-    if (list->head == NULL) return -1;
-
-    Node *current = list->head;
-    int index = 0;
-    while (current != NULL) {
-        if (current->data == data) return index;
-        current = current->next;
-        index++;
-    }
-    return -1;
-}
-
-void display(List *list) {
-    Node *current = list->head;
-    while (current != NULL) {
-        printf("%d -> ", current->data);
-        current = current->next;
-    }
-    printf("NULL\n");
-}
-
-// Sample usage
 int main() {
-    List *myList = initialize();
+    List myList = initialize(myList);
 
-    insertLast(myList, 2);
-    insertLast(myList, 6);
-    insertLast(myList, 5);
-    printf("Initial List:\n");
+    myList = insertPos(myList, 1, 1);
+    myList = insertPos(myList, 3, 2);
+    myList = insertPos(myList, 2, 3);
+    myList = insertPos(myList, 5, 4);
+    printf("After insertPos:\n");
     display(myList);
 
-    insertFirst(myList, 7);
-    printf("After insertFirst 7:\n");
+    myList = deletePos(myList, 1);
+    printf("After deletePos:\n");
     display(myList);
 
-    insertPos(myList, 10, 2);
-    printf("After insertPos 10 at index 2:\n");
+    int pos = locate(myList, 2);
+    printf("Locate 2: %d\n", pos);
+
+    myList = insertSorted(myList, 4);
+    printf("After insertSorted:\n");
     display(myList);
 
-    deleteStart(myList);
-    printf("After deleteStart:\n");
-    display(myList);
-
-    deleteLast(myList);
-    printf("After deleteLast:\n");
-    display(myList);
-
-    deletePos(myList, 1);
-    printf("After deletePos at index 1:\n");
-    display(myList);
-
-    int pos = locate(myList, 6);
-    printf("Locate 6: %d\n", pos);
-
-    int val = retrieve(myList, 1);
-    printf("Retrieve index 1: %d\n", val);
-
-    empty(myList);
-    printf("After emptying the list:\n");
-    display(myList);
-
-    free(myList);
     return 0;
 }
+
+//=========fill the code -- array list variation 2=========
