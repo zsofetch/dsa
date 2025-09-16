@@ -147,98 +147,89 @@ typedef struct {
 // Etype is the structure, EPtr is a pointer to the structure
 
 EPtr initialize() {
-    EPtr L = (EPtr)malloc(sizeof(Etype)); // allocate memory for the struct
-    L->count = 0;                         // set the count to 0
-    return L;                             // return the list
+    //allocate memory for the struct L with EPtr and Etype size
+    //make an if statement for when L is not empty, set the count to 0 and return L
 }
 
 void insertPos(EPtr L, int data, int position) {
-    if (L == NULL) return;
-    /*put an if statement for when list is NULL
-      Position must be valid (less than or equal to count)
-      basically same ra siya with static by value except we use the arrow operator and we dont return L*/
-    if (position >= 0 && position <= L->count && L->count < MAX) {
-        // for loop: start from last element, move backwards
-        for (int i = L->count - 1; i >= position; i--) {
-            L->elem[i + 1] = L->elem[i];
-        }
-        L->elem[position] = data;
-        L->count++; 
+    //make an if statement for when list is null else;
+
+    //make another if statement setting the condition that position must be valid
+    //&& position is less than or equal to count && count does not exceed MAX
+    
+    //make a for loop starting from the last element; if i is greater than or equal to the position; move backwards
+
+    //insert the element - destination = source;
+
+    //exit the for loop and set the element's position to the data to be inserted
+
+    //increment count
+    
     }
-}
 
 void deletePos(EPtr L, int position) {
-    /*put an if statement for when list is NULL
-      if (position < 1 || position > L.count) {
-          printf("Position must be valid (less than or equal to count).\n");
-           return L; }
-    */
-    if (L == NULL) return;
-    if(position >= 0 && position <= L->count) {
-    for (int i = position; i < L->count - 1; i++) {
-        L->elem[i] = L->elem[i + 1];
-        }
-    L->count--;
-    }
+
+    //make an if statement for when list is null else;
+
+    //make another if statement wherein if position must be valid and the position must be less than or equal to count
+
+    //make a for loop initializing i as position; i is less than the last element; move forward
+
+    //delete the element - source = destination;
+
+    //exit the for loop and decrement count
+    
 }
 
 int locate(EPtr L, int data) {
-    if (L == NULL) return -1;
-    for (int i = 0; i < L->count; i++) {
-        if (L->elem[i] == data) {
-            return i; //return current index/position
-        }
-    }
-    return -1; //data not found after checking all elements
+
+    //make an if statement for when list is null
+
+    //make a for loop initializing i as 0; i less than count; and move forwards
+
+    //make an if statement that if the element[i] is equal to the data then return the current index
+
+    //exit the if and for loop statement and return -1 if data is not found
+
 }
 
 int retrieve (EPtr L, int position) {
-    if (L == NULL) return -1;
-     if (position >= 0 && position < L->count) { //position must be valid (not negative within valid range)
-         return L->elem[position]; //access elem array at given position through pointer
-    }
-    return -1;
+    //make an if statement for when list is null
+
+    //make an if statement wherein if position is greater than or equal to 0 && position is less than count 
+    //return the elem array at a given position else return -1
  }
 
 void insertSorted(EPtr L, int data) {
+    //make an if statement for when list is null
 
-    if (L == NULL) return;
-    //check if array is full
-    if (L->count < MAX) { // Access count through pointer to ensure space available
-        int position = 0; 
-        while (position < L->count && L->elem[position] < data) {
-            position++; // Move to next position
-        }
-        /*position < L->count ~while position is not at the end of the list
-          L->elem[position] < data ~current element smaller than data to insert*/
-    
-        for (int i = L->count - 1; i >= position; i--) {
-        /*i = L.count - 1 ~start at last element index
-          i >= position ~continue while i is at or after the target position
-          i-- ~move backwards*/
-            
-            // Move element at index i to index i+1
-            L->elem[i + 1] = L->elem[i];
-        }
+    //check if array is full so create an if statement if count is less than MAX
 
-        L->elem[position] = data;
-        /*L.elem[position] ~array access
-         data ~value to store*/
-        
-        L->count++;
-    }
+    //set the position to 0
+
+    //make a while loop wherein position is less than count && elem array at that given position is less than data
+    //move forward to next position 
+
+    //exit the while loop and make a for loop initialize i = the last element; i greater than or equal to position; move backwards
+
+    //destination = source
+
+    //exit for loop and set elem array at given position to data
+
+    //increment count
 }
 
 void display(EPtr L) {
-    if (L == NULL) return;
-    for (int i = 0; i < L->count; i++) {
-        printf("%d ", L->elem[i]);
-        //for commas
-        if (i < L->count - 1) {
-            printf(", ");
-        }
-    }
-    printf("\n");
+    //make an if statement for when list is null
+
+    //make a standard for loop statement
+
+    //printf L->elem[i]
+
+    //for commas, make an if statement that if i is less than the last element print the comma
+
+    //exit the if statement and for loop and print a namespace
+    
 }
 
 int main() {
@@ -263,6 +254,8 @@ int main() {
     printf("After insertSorted:\n");
     display(myList);
 
-    free(myList); // free allocated memory
+    free(myList); 
+
     return 0;
+    
 }
