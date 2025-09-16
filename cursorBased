@@ -1,0 +1,121 @@
+//cursor based
+
+#include <stdio.h>
+#include <stdlib.h>
+#define MAX 4 
+
+typedef struct {
+    int elem;
+    int next;
+} Cell, HeapSpace[MAX];
+
+typedef struct {
+    HeapSpace H;
+    int avail;
+} VHeap;
+
+typedef int List; //head nis list
+
+void initialize(VHeap *V) {
+    int i;
+    for (i = 0; i < MAX - 1; i++) {
+        V->H[i].next = i + 1;
+    }
+    V->H[MAX].next = -1; //-1 end of available list 
+    V->avail = 0; //first cell na available
+}
+
+int allocSpace(VHeap *V) {
+    int temp = V->avail;
+    if (temp != -1) {
+        V->avail = V->H[temp].next; 
+    }
+    return temp; 
+}
+
+void insertFirst(int *L, VHeap* V, int elem) {
+    int newCell = allocSpace(V);
+    
+    if (newCell != -1) {
+        V->H[newCell].elem = elem;
+        V->H[newCell].next = *L;
+        *L = newCell;
+    }
+}
+
+void insertLast(int *L, VHeap* V, int elem) {
+    int newCell = allocSpace(V);
+    if (newCell != -1) {
+        V->H[newCell].elem = elem;
+        V->H[newCell].next = *-1;
+        int *trav = L;
+        
+        while(*trav != -1) {
+            trav = &V[*trav].next;
+        }
+        *trav = newCell;
+    }
+}
+
+
+void insertSorted(int *L, VHeap* V, int elem) {
+    
+}
+
+void delete(int *L, VHeap* V, int elem) {
+    int *trav, temp;
+    trav = *L;
+    while(*trav != -1 && V->H[*trav].elem != elem) {
+        trav = V->H[*trav].next;
+    }
+    if(*trav != -1) {
+        temp = *trav;
+        *trav = V->H[*trav].next;
+        dealloc(temp);
+    }
+    
+}
+
+void freeSpace(VHeap *V, int index) {
+    if (index != -1) {
+        V->H[index].next = V->avail;
+        V->avail = index;
+    }
+}
+
+void insertLast(List *L, VHeap *V, int elem) {
+    int newCell = allocSpace(V);
+    if (newCell != -1) {
+        V->H[newCell].elem = elem;
+        V->H[newCell].next = -1;
+            int trav = *L;
+            while (V->H[trav].next != -1) {
+                trav = V->H[trav].next;
+            }
+            V->H[trav].next = newCell;
+        }
+}
+
+void display(List L, VHeap V) {
+    while (L != -1) {
+        printf("%d -> ", V.H[L].elem);
+        L = V.H[L].next;
+    }
+    printf("NULL\n");
+}
+
+int main() {
+    VHeap V;
+    List L = -1;  
+
+    initialize(&V);
+
+    insertFirst(&L, &V, 10);
+    insertFirst(&L, &V, 20);
+    insertLast(&L, &V, 30);
+    insertLast(&L, &V, 40);
+
+    display(L, V);
+
+    return 0;
+}

@@ -1,5 +1,6 @@
 //please disregard comments :)) they're for my notes thank u!
 //to be debugged
+//array list - variation 1 (static array accessed by value)
 #include <stdio.h>
 #define MAX 10
 
@@ -51,7 +52,7 @@ List insertPos(List L, int data, int position) {
 }
 
 List deletePos(List L, int position) {
-    if (position >= 0 && position <= L.count) {
+    if (position >= 0 && position < L.count) { 
             /*shift elements to the left to fill the gap
               start from the position being deleted and move forward
               this overwrites the deleted element and closes the gap*/
@@ -105,7 +106,7 @@ void display (List L) {
 
         //for commas
         if (i < L.count -1) {
-            printf(" ,");
+            printf(", ");
         }
     }
     printf("\n");
@@ -114,10 +115,10 @@ void display (List L) {
 int main() {
     List myList = initialize(myList);
 
-    myList = insertPos(myList, 1, 1);
-    myList = insertPos(myList, 3, 2);
-    myList = insertPos(myList, 2, 3);
-    myList = insertPos(myList, 5, 4);
+    myList = insertPos(myList, 1, 0);
+    myList = insertPos(myList, 3, 1);
+    myList = insertPos(myList, 2, 2);
+    myList = insertPos(myList, 5, 3);
     printf("After insertPos:\n");
     display(myList);
 

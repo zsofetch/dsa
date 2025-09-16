@@ -15,7 +15,9 @@ typedef struct {
 
 EPtr initialize() {
     EPtr L = (EPtr)malloc(sizeof(Etype)); // allocate memory for the struct
+    if (L != NULL) {
     L->count = 0;                         // set the count to 0
+    }          
     return L;                             // return the list
 }
 
@@ -38,10 +40,10 @@ void deletePos(EPtr L, int position) {
     /*put an if statement for when list is NULL
       if (position < 1 || position > L.count) {
           printf("Position must be valid (less than or equal to count).\n");
-           return L; }
+        ; }
     */
     if (L == NULL) return;
-    if(position >= 0 && position <= L->count) {
+    if(position >= 0 && position < L->count) {
     for (int i = position; i < L->count - 1; i++) {
         L->elem[i] = L->elem[i + 1];
         }
@@ -130,6 +132,8 @@ int main() {
     printf("After insertSorted:\n");
     display(myList);
 
-    free(myList); // free allocated memory
+    free(myList); 
+
     return 0;
+    
 }
