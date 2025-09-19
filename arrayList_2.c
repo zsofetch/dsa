@@ -13,6 +13,16 @@ typedef struct {
 
 // Etype is the structure, EPtr is a pointer to the structure
 
+//function prototypes
+
+EPtr initialize();
+void insertPos(EPtr L, int data, int position);
+void deletePos(EPtr L, int position);
+int locate(EPtr L, int data);
+int retrieve(EPtr L, int position);
+void insertSorted(EPtr L, int data);
+void display(EPtr L);
+
 EPtr initialize() {
     EPtr L = (EPtr)malloc(sizeof(Etype)); // allocate memory for the struct
     if (L != NULL) {

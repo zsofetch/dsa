@@ -17,12 +17,17 @@ Stack* initialize();
 bool isFull(Stack *s);
 bool isEmpty(Stack *s);
 void push(Stack *s, int value);
+void pushSorted(Stack *s, int value);
 int pop(Stack* s);
 int peek(Stack* s);
 void display(Stack* s);
 
 Stack* initialize() {
-    Stack *s = (Stack*)malloc(sizeof(Stack)); //why are we malloc-ing
+    Stack *s = (Stack*)malloc(sizeof(Stack)); 
+    if (s == NULL) {  // check if allocation failed
+        printf("Memory allocation failed!\n");
+        exit(1); 
+    }
     s->top = -1; //top is -1 (ure not pointing to any box yet)
     return s; //pointer to stack
 }
@@ -46,6 +51,23 @@ void push(Stack *s, int value) {
     because this is pushing value to the right*/
 }
 
+void pushSorted(Stack *s, int value) {
+    if (isFull(s)) {
+        printf("Stack is full, cannot push %d\n", value);
+        return;
+    }
+
+    int i = s->top;
+    // shift bigger elements to the right to make space for the smaller value
+    while (i >= 0 && s->items[i] > value) {
+        s->items[i + 1] = s->items[i];
+        i--;
+    }
+
+    s->items[i + 1] = value; // insert new value
+    s->top++;
+}
+
 int pop (Stack *s) {
     if (isEmpty(s)) {
         printf("stack is empty dumdum!\n");
@@ -60,7 +82,7 @@ int pop (Stack *s) {
 
 int peek (Stack *s) { //returning value on top of the stack
     if (isEmpty(s)) {
-        printf("stack is empty! what's there to peek!?!?!?");
+        printf("stack is empty! what's there to peek!?!?!?\n");
         return -1;
     }
     return s->items[s->top];
@@ -69,7 +91,7 @@ int peek (Stack *s) { //returning value on top of the stack
 
 void display(Stack *s) {
     if (isEmpty(s)) {
-        printf("stack is empty! what's there to display?!?!");
+        printf("stack is empty! what's there to display?!?!\n");
         return;
     }
     printf("here are the stack elements! \n");
