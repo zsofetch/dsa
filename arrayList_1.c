@@ -33,7 +33,7 @@ List insertPos(List L, int data, int position) {
     L.count < MAX ~count does not exceed limit */
     if (position >= 0 && position <= L.count && L.count < MAX) {
         //shift elements to the right to make space (start from last element then move backwards)
-        (for int i = L.count - 1; i >= position; i--) {
+        for (int i = L.count - 1; i >= position; i--) {
             /*i = L.count - 1 ~start at last valid index
               i >= position ~continue while i is at or after the target position
               i-- ~move backwards*/
@@ -77,7 +77,7 @@ int locate(List L, int data) {
     return -1;
 }
 
-insertSorted(List L, int data) {
+List insertSorted(List L, int data) {
     if (L.count < MAX) { //list is not full
        int position = 0;
        while (position < L.count && L.elem[position] < data) {

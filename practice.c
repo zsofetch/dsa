@@ -1,4 +1,5 @@
 //=========fill the code -- array list variation 1=========
+//static array accessed by value
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
@@ -133,6 +134,7 @@ int main() {
 }
 
 //=========fill the code -- array list variation 2=========
+//static array accessed by reference
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -258,4 +260,352 @@ int main() {
 
     return 0;
     
+}
+
+
+//=========fill the code -- array list variation 3=========
+//dynamic array accessed by value
+
+#include <stdio.h>
+#include <stdlib.h>
+#define LENGTH 10
+
+typedef struct {
+    int *elemPtr;
+    int count;
+    int max;
+} List;
+
+List initialize(List L);
+List insertPos(List L, int data, int position);
+List deletePos(List L, int position);
+int locate(List L, int data);
+List insertSorted(List L, int data);
+void display(List L);
+List resize(List L);
+
+//idk if we need helper functions
+void cleanup(List L); 
+
+List initialize(List L) {
+
+    //set the max to a capacity of 10 elements
+    //dynamically allocate memory for the elemPtr with size of int times max 
+    //cast to (int*) since malloc returns void
+
+    //set count to 0 since the list is empty
+
+    //return L
+
+}
+
+List resize(List L) {
+    //to resize, double the capacity of max
+
+    //reallocate the memory assigned to the array and double its length
+    //cast to (int*) since realloc returns void
+    //original pointer L.elemPtr, new size in bytes (doubled)
+
+    //return L
+}
+List insertPos(List L, int data, int position) {
+    //make an if statement and check if the array is full (count equals or exceeds max)
+
+    //call the resize function if the array is full }
+
+    //make another if statement to validate position (not negative && position must be valid (less than or equal to count))
+
+    //make a for loop - i should start from last element and move backwards while continuing if i is at (equal) or after (greater) pos
+
+    //destination == source }
+
+    //insert the data into the specified position of elemPtr
+
+    //increment count }
+
+    //return L
+
+}
+
+List deletePos(List L, int position) {
+    //make an if statement to check if position is valid (count is less than or equal to 0 and position is less than count)
+
+    //make a for loop - i should start from the position being deleted; i should be less than the second to the last element; move forward 
+
+    //source == destination }
+
+    //decrement count
+
+    //return L
+
+}
+
+int locate(List L, int data) {
+
+    //loop through the array anf return the position of the data if found - use a standard for loop
+
+    //if i in elemPtr is equal to data return i
+
+    //return -1 if not found
+}
+
+List insertSorted(List L, int data) {
+
+    //check if the array is full - if count is greater than or equal to max {
+    
+    //resize the list by calling the resize function }
+
+    //initialize posiiton to 0 to start from the beginning of the array
+
+    //while (position is less than count && elemPtr at that position is less than data) {
+    
+    //move to the next position (increment position) }
+
+    //make a for loop - i should start from the second to the last element; i should be at or after the target position; move backwards
+
+    //destination = source }
+
+    //insert the data into the correct position 
+
+    //increment count
+
+    //return L
+}
+  
+void display(List L) {
+
+    //make a standard for loop for traversing through the array
+
+    //display each element of the array until count is reached
+
+    //make an if statement for commas (if i is less than count - 1) print comma
+}
+
+//optional helper functions
+
+/*for insertFirst return insert pos then add position 0
+indicating youre inserting at index 0*/
+List insertFirst(List L, int data) {
+   
+}
+
+/*for insertLast you do the same but you insert at the 
+last position or L.count*/
+List insertLast(List L, int data) {
+    return insertPos(L, data, L.count);
+}
+
+//for deleteFirst call deletePos then add position 0
+List deleteFirst(List L) {
+
+}
+
+//for deleteLast call check if count is greater than 0 then call
+///then call deletePos then add position L.count - 1 (last element)
+//else return L is unchanged list is empty
+List deleteLast(List L) {
+    
+}
+
+// Function uses combination of locate and deletePos as mentioned in the note
+List deleteByValue(List L, int data) {
+
+    //initialize position to the result of locate function
+
+    //if position is not -1 (data was found) call deletePos to remove it
+
+    //return L
+}
+
+void cleanup(List L) {
+    //if elemPtr is not null then free the memory allocated
+
+}
+
+int main () {
+List myList;
+myList = initialize(myList);
+
+myList = insertPos(myList, 10, 0);
+myList = insertSorted(myList, 5);
+
+display(myList);
+
+cleanup(myList);
+return 0;
+}
+
+//=========fill the code -- array list variation 4=========
+//dynamic array accessed by reference
+
+//dynamic array accessed by pointer
+#include <stdio.h>
+#include <stdlib.h>
+#define LENGTH 10
+
+typedef struct {
+    int *elemPtr;
+    int count;
+    int max;
+} List;
+
+// function prototypes
+void initialize(List *L);
+void insertPos(List *L, int data, int position);
+void insertFirst(List *L, int data);
+void insertLast(List *L, int data);
+void deletePos(List *L, int position);
+void deleteFirst(List *L);
+void deleteLast(List *L);
+void deleteByValue(List *L, int data);
+int locate(List *L, int data);
+int retrieve(List *L, int position);
+void insertSorted(List *L, int data);
+void display(List *L);
+void resize(List *L);
+void makeNULL(List *L);
+
+void initialize(List *L) {
+    //allocate memory for elemPtr = cast int; malloc; LENGTH * size of int
+
+    //initialize count to 0
+
+    //initialize max to LENGTH
+}
+
+void insertPos(List *L, int data, int position) {
+
+    //if position is less than 0 or greater than count print invalid position and return
+
+    //resize if full with an if statement - if count equals max call resize function
+
+    //make a for loop - start i from count; continue while i is greater than position; move backwards
+
+    //shift elements to the right - source = destination (note that we're shifting from i-1 to i)
+
+    //insert the new element at the specified position
+
+    //increment count
+
+}
+
+void insertFirst(List *L, int data) {
+     // just insert at position 0
+}
+
+void insertLast(List *L, int data) {
+     // insert at position count (end)
+}
+
+void deletePos(List *L, int position) {
+
+    //if position is less than 0 or greater than or equal to count print invalid position and return
+    
+    // Shift elements to the left and make a for loop - start i from position; continue while i is less than the second to the last element; move forward
+
+    //source = destination
+
+    //decrement count
+}
+
+void deleteFirst(List *L) {
+    // delete at position 0
+}
+
+void deleteLast(List *L) {
+    // delete at the last index or last element
+}
+
+void deleteByValue(List *L, int data) {
+    //initialize position to the result of locate function
+
+    //if position is not -1 (data was found) call deletePos to remove it and delete at that position
+
+    //optional: make a print statement to confirm deletion or not found
+
+    //else print value not found in the list
+}
+
+int locate(List *L, int data) {
+    //loop through the array and return the position of the data if found
+
+    //if element in that index is equal to data return the index
+
+    //return -1 if not found
+}
+
+int retrieve(List *L, int position) {
+
+    //if position is invalid print invalid position and return -1
+
+    //else return the element at that position
+}
+
+void insertSorted(List *L, int data) {
+    //resize if full with an if statement (count equals max)
+
+    //initialie i to count - 1 (last index)
+
+    //shift right until correct spot is found with a while loop (while i is greater than or equal to 0 && elemPtr at i is greater than data)
+
+    //destination = source (i + 1 means youre inserting i at the next index)
+
+    //decrement i
+
+    //insert the data into the correct position (i + 1 because i was decremented after the last comparison in the while loop)
+
+    //increment count
+}
+
+void display(List *L) {
+    //print list elements - make a standard for loop
+}
+
+// Resize the array when full
+void resize(List *L) {
+    //initialize newSize to double the current max
+
+    //initialize pointer temp; cast int, realloc with original pointer, new size in bytes (newSize * size of int)
+
+    //if temp is null print memory reallocation failed and return
+
+    //else set elemPtr to temp
+
+    //set max to newSize
+    
+    //print resized array to new capacity
+}
+
+void makeNULL(List *L) {
+    //free the memory allocated for elemPtr
+
+    //set elemPtr to NULL
+
+    //set count and max to 0
+}
+
+int main() {
+    List myList;
+    initialize(&myList);
+
+    insertFirst(&myList, 10);
+    insertLast(&myList, 20);
+    insertLast(&myList, 30);
+    insertFirst(&myList, 5);
+    display(&myList);
+
+    deleteFirst(&myList);
+    deleteLast(&myList);
+    display(&myList);
+
+    insertLast(&myList, 40);
+    insertLast(&myList, 50);
+    display(&myList);
+
+    deleteByValue(&myList, 40);
+    deleteByValue(&myList, 100); // not in list
+    display(&myList);
+
+    makeNULL(&myList);
+    return 0;
 }

@@ -26,6 +26,7 @@ void resize(List *L);
 void makeNULL(List *L);
 
 void initialize(List *L) {
+    //allocate memory for elemPtr = cast int; malloc; LENGTH * size of int
     L->elemPtr = (int *) malloc(LENGTH * sizeof(int)); 
     L->count = 0;
     L->max = LENGTH;
