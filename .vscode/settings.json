@@ -1,5 +1,7 @@
 {
     "files.associations": {
-        "arrayqueue_1": "c"
+        "arrayqueue_1": "c",
+        "arrayqueue_2": "c",
+        "cursorbased": "c"
     }
 }

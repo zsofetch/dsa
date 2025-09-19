@@ -1,9 +1,9 @@
 //Queue implementation using linked list (Variation 1)
 //Queue has both front and rear pointers
 
-#include <stdio.h>   // Include standard input/output library for printf
-#include <stdlib.h>  // Include standard library for malloc and free
-#include <stdbool.h> // Include boolean library for true/false values
+#include <stdio.h>  
+#include <stdlib.h>  
+#include <stdbool.h> 
 
 // Define the structure for a single node in the queue
 typedef struct Node {
@@ -19,7 +19,6 @@ typedef struct Queue {
 
 // Function prototypes - declare all functions before defining them
 Queue* initialize();
-bool isFull(Queue* q);
 bool isEmpty(Queue* q);
 bool enqueue(Queue* q, int value);
 int dequeue(Queue* q);
@@ -45,29 +44,18 @@ Queue* initialize() {
     return q;
 }
 
-// Check if the queue is full (linked list implementation can never be full)
-bool isFull(Queue* q) {
-    // Return false because linked list can grow dynamically
-    // (limited only by available system memory)
-    return false;
-}
 
 // Check if the queue is empty
 bool isEmpty(Queue* q) {
-    // Check if queue pointer is valid
-    if (q == NULL) {
-        return true; // Consider NULL queue as empty
-    }
-    
+    return (q == NULL || q->front == NULL);
+    // Consider NULL queue as empty
     // Queue is empty if the front pointer is NULL
-    return (q->front == NULL);
 }
 
 // Enqueue (add) a new value to the rear of the queue
 bool enqueue(Queue* q, int value) {
     // Check if the queue pointer is valid
     if (q == NULL) {
-        printf("Invalid queue!\n");
         return false; // Operation failed
     }
     
@@ -133,7 +121,6 @@ int dequeue(Queue* q) {
 
 // Get the front value without removing it from the queue
 int front(Queue* q) {
-    // Check if the queue is empty
     if (isEmpty(q)) {
         printf("Queue is empty! Cannot get front element.\n");
         return -1; // Return -1 as error indicator
@@ -148,7 +135,7 @@ void display(Queue* q) {
     // Check if the queue is empty
     if (isEmpty(q)) {
         printf("Queue is empty!\n");
-        return; // Nothing to display
+        return;
     }
     
     // Create a temporary pointer to traverse the queue
@@ -168,8 +155,6 @@ void display(Queue* q) {
 
 // Helper function to free all nodes and the queue structure
 void destroyQueue(Queue* q) {
-    if (q == NULL) return;
-    
     // Free all nodes in the queue
     while (!isEmpty(q)) {
         dequeue(q); // This will free each node
@@ -181,74 +166,36 @@ void destroyQueue(Queue* q) {
 
 // Main function to demonstrate the queue operations
 int main() {
-    // Initialize an empty queue
     Queue* myQueue = initialize();
-    
-    // Check if initialization was successful
-    if (myQueue == NULL) {
-        return 1; // Exit with error code
-    }
-    
-    // Test queue operations
-    printf("=== Queue Operations Demo ===\n");
-    
-    // Test isEmpty on empty queue
-    printf("Is queue empty? %s\n", isEmpty(myQueue) ? "Yes" : "No");
-    
-    // Test enqueue operations
-    printf("\nEnqueuing elements: 10, 20, 30, 40\n");
-    enqueue(myQueue, 10);  // Add 10 to rear
-    enqueue(myQueue, 20);  // Add 20 to rear
-    enqueue(myQueue, 30);  // Add 30 to rear
-    enqueue(myQueue, 40);  // Add 40 to rear
-    
-    // Display current queue
+    if (myQueue == NULL) return 1;
+
+    printf("=== Linked List Queue Demo (Variation 1) ===\n");
+
+    // Enqueue some elements
+    enqueue(myQueue, 10);
+    enqueue(myQueue, 20);
+    enqueue(myQueue, 30);
     display(myQueue);
-    
-    // Test front operation
+
+    // Show the front element
     printf("Front element: %d\n", front(myQueue));
-    
-    // Test isEmpty on non-empty queue
-    printf("Is queue empty? %s\n", isEmpty(myQueue) ? "Yes" : "No");
-    
-    // Test isFull operation
-    printf("Is queue full? %s\n", isFull(myQueue) ? "Yes" : "No");
-    
-    // Test dequeue operations
-    printf("\nDequeuing elements:\n");
-    printf("Dequeued: %d\n", dequeue(myQueue));  // Should dequeue 10
-    printf("Dequeued: %d\n", dequeue(myQueue));  // Should dequeue 20
-    
-    // Display queue after dequeuing
+
+    // Dequeue one element
+    printf("Dequeued: %d\n", dequeue(myQueue));
     display(myQueue);
-    
-    // Test front after dequeuing
-    printf("Front element after dequeuing: %d\n", front(myQueue));
-    
-    // Enqueue more elements to test mixed operations
-    printf("\nEnqueuing element: 50\n");
-    enqueue(myQueue, 50);
+
+    // Add another element
+    enqueue(myQueue, 40);
     display(myQueue);
-    
-    // Dequeue remaining elements
-    printf("\nDequeuing all remaining elements:\n");
-    printf("Dequeued: %d\n", dequeue(myQueue));  // Should dequeue 30
-    printf("Dequeued: %d\n", dequeue(myQueue));  // Should dequeue 40
-    printf("Dequeued: %d\n", dequeue(myQueue));  // Should dequeue 50
-    
-    // Test operations on empty queue
-    printf("\nTesting operations on empty queue:\n");
-    display(myQueue);                    // Should show empty
-    dequeue(myQueue);                    // Should show error
-    printf("Front result: %d\n", front(myQueue)); // Should show error
-    
-    // Test enqueuing after emptying
-    printf("\nEnqueuing after emptying: 100\n");
-    enqueue(myQueue, 100);
+
+    // Dequeue all remaining elements
+    printf("Emptying the queue:\n");
+    while (!isEmpty(myQueue)) {
+        printf("Dequeued: %d\n", dequeue(myQueue));
+    }
+
     display(myQueue);
-    
-    // Clean up memory
+
     destroyQueue(myQueue);
-    
-    return 0; // Successful program termination
+    return 0;
 }

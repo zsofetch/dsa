@@ -1,4 +1,5 @@
-//to debug pani
+//array implementation of a queue
+//variation 1: queue is a static array with count front and rear
 
 #include <stdio.h>
 #include <stdbool.h>
@@ -17,18 +18,19 @@ typedef struct {
     int rear;
 } Queue;
 
-Queue Q;
-
 //function prototypes 
 Queue* initialize();
 bool isFull(Queue* q);
 bool isEmpty(Queue* q);
 void enqueue(Queue* q, int value);
 int dequeue(Queue* q);
-int front(Queue* q);
+int peekFront(Queue* q);
 void display(Queue* q);
 
-Queue initialize(Queue* q) {
+//helper function
+void cleanup(Queue* q);
+
+Queue* initialize() {
     //allocate memory
     Queue* q = (Queue*)malloc(sizeof(Queue));
     
@@ -65,23 +67,18 @@ void enqueue(Queue* q, int value) {
            Add the new value to the list at the rear position as per checklist*/  
         q->list.count++;
         // Increment the count
+        } else {
+        printf("Queue is full! Cannot enqueue %d\n", value);
     }
 }
 
 int dequeue(Queue* q) {
-    // Function signature breakdown:
-    // - Return type: int (return the removed value)
-    // - Function name: dequeue
-    // - Parameters: Queue* q (pointer to queue)
-    
     int removedValue = -1; // Default return value for empty queue
     // Variable to store  Default value if queue is empty
     // the removed value
     
-    // STEP 1: Check if the queue is empty
     if (!isEmpty(q)) {
        
-        // STEP 2: Store the value found at the front of the queue before it is removed
         removedValue = q->list.items[q->front];
         //             ^^^^^^^^^^^^^^^^^^^^^^^
         // Store the value found at the front of the queue before it is removed
@@ -89,7 +86,7 @@ int dequeue(Queue* q) {
         
         // STEP 3: If this is the last element in the queue, reset the queue to its initial empty state
         if (q->list.count == 1) {
-            //  ^^^^^^^^^^^^^^^^^^
+            // ^^^^^^^^^^^^^^^^^^
             // Check if this is the last element (count == 1)
             
             q->front = -1;
@@ -111,54 +108,30 @@ int dequeue(Queue* q) {
         
         // STEP 5: Decrement the count
         q->list.count--;
-        // ^^^^^^^^^^^^^^
         // Decrement the count as per checklist
-        // Decrease the number of elements in queue
+    }  else {
+        printf("Queue is empty! Cannot dequeue.\n");
     }
     
-    // STEP 6: Return the removed value
     return removedValue;
-    // ^^^^^^^^^^^^^^^^^^
-    // Return the removed value as per checklist
+    // Return the removed value
 }
 
-int front(Queue* q) {
-    // Function signature breakdown:
-    // - Return type: int (return the front value without removing it)
-    // - Function name: front
-    // - Parameters: Queue* q (pointer to queue)
-    
-    // STEP 1: Check if the queue is empty
+int peekFront(Queue* q) {
     if (!isEmpty(q)) {
-        //  ^^^^^^^^^^^^
         // Check if the queue is empty (if not empty, proceed)
-        
-        // STEP 2: Return the value at the front of the queue
         return q->list.items[q->front];
         //     ^^^^^^^^^^^^^^^^^^^^^^^
         // Return the value at the front of the queue as per checklist
         // Access element at front position without removing it
     }
-    
-    // Return -1 if queue is empty (sentinel value)
     return -1;
-    // ^^^^^^^^
     // Return default value if queue is empty
 }
 
 void display(Queue* q) {
-    // Function signature breakdown:
-    // - Return type: void (no return value, prints to console)
-    // - Function name: display
-    // - Parameters: Queue* q (pointer to queue to display)
-    
-    // STEP 1: Check if the queue is empty
     if (isEmpty(q)) {
-        //  ^^^^^^^^^^^
-        // Check if the queue is empty
-        
         printf("Queue is empty\n");
-        // Print message for empty queue
         return;
     }
     
@@ -166,40 +139,26 @@ void display(Queue* q) {
     
     // STEP 2: Loop through the queue from front to rear and print each element
     int i = q->front;  // Start from front
-    //  ^   ^^^^^^^^^
     // Iterator  Starting position (front of queue)
     
-    int count = 0;     // Counter to track printed elements
-    //  ^^^^^   ^^^
-    // Counter   Initialize to 0
-    
+    int count = 0; 
+   
     // Loop through queue elements
     while (count < q->list.count) {
-        //     ^^^^^^^^^^^^^^^^^^^^
         // Continue while we haven't printed all elements
         // Loop through the queue from front to rear as per checklist
         
         printf("%d", q->list.items[i]);
-        //     ^^^^  ^^^^^^^^^^^^^^^^^
-        // Format    Current element
-        // specifier at position i
-        
-        count++; // Increment counter
-        // ^^^^^^^
-        // Track number of elements printed
-        
-        // Print comma separator if not the last element
-        if (count < q->list.count) {
-            //  ^^^^^^^^^^^^^^^^^^^^
+        count++;
+
+        //comma separator
+        if (count < q->list.count)
             // Check if not the last element
-            
             printf(", ");
             // Print separator
-        }
         
         // Move to next position circularly
         i = (i + 1) % MAX;
-        //  ^^^^^^^^^^^^^
         // Move to next position using modular arithmetic
         // Ensures circular traversal of the queue
     }
@@ -207,34 +166,18 @@ void display(Queue* q) {
     printf("]\n");
     printf("Count: %d, Front: %d, Rear: %d\n", 
            q->list.count, q->front, q->rear);
-    // Display queue statistics for debugging
 }
 
-// =============================================================================
-// CLEANUP FUNCTION
-// =============================================================================
 void cleanup(Queue* q) {
-    // Function signature breakdown:
-    // - Return type: void (no return value)
-    // - Function name: cleanup
-    // - Parameters: Queue* q (pointer to queue to free)
-    
-    // STEP 1: Free the allocated memory
     if (q != NULL) {
-        //  ^^^^^^^^^
         // Check if pointer is not NULL (safety check)
         
         free(q);
-        //   ^^^
         // Free the memory allocated for the queue structure
-        // Prevents memory leaks
     }
 }
 
-// =============================================================================
-// EXAMPLE USAGE FUNCTION
-// =============================================================================
-void demonstrateQueue() {
+int main() {
     // Create and initialize queue
     Queue* myQueue = initialize();
     
@@ -250,7 +193,7 @@ void demonstrateQueue() {
     display(myQueue);
     
     // Test front function
-    printf("\nFront element: %d\n", front(myQueue));
+    printf("\nFront element: %d\n", peekFront(myQueue));
     
     // Test dequeue operations
     printf("\nDequeuing 2 elements:\n");
