@@ -49,7 +49,12 @@ void empty(List *list) {
 }
 
 void insertFirst(List *list, int data) {
+    
     Node *newNode = (Node*) malloc(sizeof(Node)); // allocate memory for a new node
+     if (newNode == NULL) {                       // check if allocation was successful
+            printf("Memory allocation failed!\n");
+            return;
+        }
     newNode->data = data;                         // set the data of the new node to the provided data
     newNode->next = list->head;                   // Set the next pointer of the new node to the current head of the list
     list->head = newNode;                         // Update the list's head pointer to point to the new node
@@ -58,6 +63,12 @@ void insertFirst(List *list, int data) {
 
 void insertLast(List *list, int data) {
     Node *newNode = (Node*) malloc(sizeof(Node));
+
+    if (newNode == NULL) {                       
+            printf("Memory allocation failed!\n");
+            return;
+        }
+
     newNode->data = data;
     newNode->next = NULL;                         // last node points to NULL
 
@@ -86,6 +97,10 @@ void insertPos(List *list, int data, int index) {
         insertLast(list, data);  // insert at the end
     } else {
         Node *newNode = (Node*) malloc(sizeof(Node));
+        if (newNode == NULL) {                       
+            printf("Memory allocation failed!\n");
+            return;
+        }
         newNode->data = data;
 
         Node *current = list->head;
@@ -201,7 +216,7 @@ int main() {
     printf("Element at index 0: %d\n", retrieve(myList, 0));
     printf("Index of 20: %d\n", locate(myList, 20));
 
-    empty(myList);0.
+    empty(myList);
     free(myList);  // free the list struct itself
     return 0;
 }

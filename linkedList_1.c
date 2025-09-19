@@ -56,7 +56,7 @@ List empty(List list) {
 List insertFirst(List list, int data) {
     Node *newNode = (Node*)malloc(sizeof(Node)); //allocate memory
     newNode->data = data; //set the data value
-    newNode->next = list.head //mo point siyas old head
+    newNode->next = list.head; //mo point siyas old head
     list.head = newNode; //new node becomes head
     list.count++;
     return list; //ireturn ang updated list
@@ -213,14 +213,19 @@ int main() {
     myList = insertPos(myList, 15, 1);
     display(myList);
 
+    //10, 15, 20, 30
+
     myList = deleteStart(myList);
     myList = deleteLast(myList);
     myList = deletePos(myList, 1);
     display(myList);
 
+    //15
+
     printf("Element at index 0: %d\n", retrieve(myList, 0));
     printf("Index of 20: %d\n", locate(myList, 20));
 
+    
     myList = empty(myList); // free all nodes
     return 0;
 }
