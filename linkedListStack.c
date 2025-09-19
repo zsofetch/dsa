@@ -20,6 +20,7 @@ bool push(Stack* s, int value);
 int pop(Stack* s);
 int peek(Stack* s);
 void display(Stack* s);
+void freeStack(Stack* s);
 
 Stack* initialize() {
     // malloc for the stack structure
@@ -136,6 +137,13 @@ void display(Stack* s) {
     printf("\n"); 
 }
 
+void freeStack(Stack* s) {
+    while (!isEmpty(s)) {
+        pop(s);  // pops & frees nodes
+    }
+    free(s); // free stack structure
+}
+
 int main() {
     // Initialize an empty stack
     Stack* myStack = initialize();
@@ -175,7 +183,7 @@ int main() {
     pop(myStack);               // show error
     printf("Peek result: %d\n", peek(myStack)); // show error
     
-    free(myStack);
+    freeStack(myStack);
     
     return 0; 
 }

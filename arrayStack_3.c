@@ -1,21 +1,23 @@
-//top starts at -1 (empty stack)
-//top moves to the right (increments) as elements are pushed
-//if top = MAX - 1 then stack is full
+//this is a bonus file, not part of the assignment
+//this time we have an array stack wherein its dynamic
+
 #include <stdio.h>
 #include <stdbool.h>
 #include <stdlib.h>
-#define MAX 10
+
+#define INITIAL_CAPACITY 4
 
 typedef struct {
-    int items[MAX];
-    int top;
+    int *items;     // dynamically allocated array
+    int top;        // index of top element
+    int capacity;   // current capacity of the array
 } Stack;
-
 
 //function prototypes
 Stack* initialize();
 bool isFull(Stack *s);
 bool isEmpty(Stack *s);
+void resize(Stack *s);
 void push(Stack *s, int value);
 void pushSorted(Stack *s, int value);
 int pop(Stack* s);
@@ -24,26 +26,41 @@ void display(Stack* s);
 
 Stack* initialize() {
     Stack *s = (Stack*)malloc(sizeof(Stack)); 
-    if (s == NULL) {  // check if allocation failed
+    if (s == NULL) {
         printf("Memory allocation failed!\n");
-        exit(1); 
+        exit(1);
+    }
+    s->items = (int*)malloc(INITIAL_CAPACITY * sizeof(int));
+    if (s->items == NULL) {
+        printf("Array allocation failed!\n");
+        exit(1);
     }
     s->top = -1; //top is -1 (ure not pointing to any box yet)
+    s->capacity = INITIAL_CAPACITY;
     return s; //pointer to stack
 }
 
 bool isFull(Stack* s) {
-    return s->top == MAX - 1; //s-top == MAX - 1 mean ure at the last box already
+    return s->top == s->capacity - 1; //s-top == last index means you're full
 }
 
 bool isEmpty(Stack* s) {
     return s->top == -1;  //top is -1 (ure not pointing to any box yet)
 }
 
+void resize(Stack *s) {
+    s->capacity *= 2;
+    s->items = (int*)realloc(s->items, s->capacity * sizeof(int));
+    if (s->items == NULL) {
+        printf("Reallocation failed!\n");
+        exit(1);
+    }
+    printf("Stack resized to capacity %d\n", s->capacity);
+}
+
 void push(Stack *s, int value) {
     if (isFull(s)) {
-        printf("stack is full silly!\n");
-        return;
+        resize(s); // double the size if full
     }
     s->top++;
     s->items[s->top] = value; 
@@ -51,14 +68,12 @@ void push(Stack *s, int value) {
     because this is pushing value to the right*/
 }
 
-
 void pushSorted(Stack *s, int value) {
     if (isFull(s)) {
-        printf("Stack is full, cannot push %d\n", value);
-        return;
+        resize(s); // make room before shifting
     }
 
-    int i = s->top; //start at the current top position
+    int i = s->top;
     // shift bigger elements to the right to make space for the smaller value
     while (i >= 0 && s->items[i] > value) {
         s->items[i + 1] = s->items[i];
@@ -75,9 +90,7 @@ int pop (Stack *s) {
         return -1;
     }
     int value = s->items[s->top]; 
-    /*get the value at the current
-    top of the stack?!??! HA*/
-    s->top--;
+    s->top--; //move down one block
     return value;
 }
 
@@ -87,7 +100,6 @@ int peek (Stack *s) { //returning value on top of the stack
         return -1;
     }
     return s->items[s->top];
-
 }
 
 void display(Stack *s) {
@@ -97,13 +109,10 @@ void display(Stack *s) {
     }
     printf("here are the stack elements! \n");
     for(int i = s->top; i >= 0; i--) {
-        /*its like we're saying if i = to the top block keep
-        printing until you reach the bottom as long as i = 0 or bigger
-        when i become -1, STOP! go down one block at a time therefore decrementing*/
         printf("%d\n", s->items[i]);
     }
 }
-    
+
 int main() {
     Stack* stack = initialize();
 
@@ -111,8 +120,9 @@ int main() {
     push(stack, 20);
     push(stack, 30);
     push(stack, 40);
-    push(stack, 50);
-    pushSorted(stack, 25); // this will insert 25 in sorted order
+    push(stack, 50); // triggers resize
+
+    pushSorted(stack, 25); // inserts in sorted position
 
     display(stack);
 
@@ -122,7 +132,7 @@ int main() {
     pop(stack);  
     display(stack);
 
+    free(stack->items); 
     free(stack); 
     return 0;
 }
-

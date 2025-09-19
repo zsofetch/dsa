@@ -222,6 +222,7 @@ int main() {
     push(stack, 30);
     push(stack, 40);
     push(stack, 50);
+    pushSorted(stack, 25);
 
     display(stack);
 
@@ -232,4 +233,158 @@ int main() {
     display(stack);
     free(stack); 
     return 0;
+}
+
+//=========fill the code -- linked list stack=========
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <stdbool.h>
+
+// struct for a single node in the stack
+typedef struct Node {
+    int data; 
+    struct Node* next;
+} Node;
+
+//struct for the stack itself
+typedef struct Stack {
+    Node* top; //pointer to the top node of the stack
+} Stack;
+
+Stack* initialize();
+bool isFull(Stack* s);
+bool isEmpty(Stack* s);
+bool push(Stack* s, int value);
+int pop(Stack* s);
+int peek(Stack* s);
+void display(Stack* s);
+void freeStack(Stack* s);
+
+Stack* initialize() {
+    //allocate memory for Stack *s
+
+    //if s is NULL print memory allocation failed and return NULL
+
+    //if not, initialize top to NULL indicating that the stack is empty
+
+    //return s (pointer to stack)
+}
+
+bool isFull(Stack* s) {
+    // return false because linked list can grow dynamically
+}
+
+bool isEmpty(Stack* s) {
+    //check if s is NULL and return true (NULL stack is considered empty)
+
+    //else return top == NULL; (indicates stack is empty because top pointer is NULL)
+}
+
+bool push(Stack* s, int value) {
+    //check if s is NULL and print invalid stack then return false
+
+    //allocate memory for a new node
+
+    //if newNode is NULL print memory allocation failed and return false
+
+    //set the data of the new node to the provided value
+
+    //Link the pointer next of new node to the current top of the stack
+
+    //Update the stack's top pointer to point to the new node
+
+    //return true
+
+}
+
+int pop(Stack* s) {
+    //check if stack is empty with an if statement and print a statement then return -1
+
+    //else initialize a temporary pointer to the top node indicating the node to be removed
+
+    //before removing the top node, store its data in a temporary variable named data to return later
+    
+    //then we update the top pointer to point to the next node in the stack (hint: this is a linked list so you need to access the next pointer of the top node)
+
+    //we throw away or free the memory of the old top node using the temporary pointer
+
+    //return the data of that temp pointer
+}
+
+int peek(Stack* s) {
+    //check if stack is empty with an if statement and print a statement then return -1
+
+    //else return the data at the current top node (hint: this is a linked list so you need to access the data of the top node)
+}
+
+// Display from top to bottom
+void display(Stack* s) {
+
+    //check if stack is empty with an if statement and print a statement then return
+
+    //else initialize a temporary pointer to the top node indicating the current node to print
+
+    //while the temp pointer is not NULL
+
+        //print the data of the current node
+
+        //initialize temp as the next node (temp->next) - this means move to the next node in the stack
+
+    //print a newline at the end
+
+}
+
+void freeStack(Stack* s) {
+
+    //while the stack is not empty
+
+        //pop elements in stack s to free nodes
+
+    //free the stack structure itself
+
+}
+
+int main() {
+    // Initialize an empty stack
+    Stack* myStack = initialize();
+    
+    // Check if initialization was successful
+    if (myStack == NULL) {
+        return 1; // Exit with error code
+    }
+    
+    printf("=== Stack Operations Demo ===\n");
+    
+    printf("Is stack empty? %s\n", isEmpty(myStack) ? "Yes" : "No");
+    
+    printf("\nPushing elements: 10, 20, 30\n");
+    push(myStack, 10);  // Push 10 onto stack
+    push(myStack, 20);  // Push 20 onto stack  
+    push(myStack, 30);  // Push 30 onto stack
+    
+    display(myStack);
+    
+    printf("Top element (peek): %d\n", peek(myStack));
+    
+    printf("Is stack empty? %s\n", isEmpty(myStack) ? "Yes" : "No");
+    
+    printf("Is stack full? %s\n", isFull(myStack) ? "Yes" : "No");
+    
+    printf("\nPopping elements:\n");
+    printf("Popped: %d\n", pop(myStack));  
+    printf("Popped: %d\n", pop(myStack));  
+    
+    display(myStack);
+    
+    printf("Popped: %d\n", pop(myStack));  
+    
+    printf("\nTesting operations on empty stack:\n");
+    display(myStack);           // show empty
+    pop(myStack);               // show error
+    printf("Peek result: %d\n", peek(myStack)); // show error
+    
+    freeStack(myStack);
+    
+    return 0; 
 }

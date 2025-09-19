@@ -1,5 +1,6 @@
 //top starts at MAX
 //top moves to the left (decrements) as elements are pushed
+//note: push sorted is not working yet
 
 #include <stdio.h>
 #include <stdbool.h>
@@ -49,22 +50,21 @@ void push(Stack *s, int value) {
     s->items[s->top] = value; //store value
 }
 
-void pushSorted(Stack *s, int value) {
-    if (isFull(s)) {
-        printf("Stack is full, cannot push %d\n", value);
-        return;
-    }
+// void pushSorted(Stack *s, int value) {
+//     if (isFull(s)) {
+//         printf("Stack is full, cannot push %d\n", value);
+//         return;
+//     }
 
-    int i = MAX - 1; // start from the rightmost used slot
-    // shift smaller elements to the right
-    while (i >= s->top && s->items[i] > value) {
-        s->items[i + 1] = s->items[i];
-        i--;
-    }
+//     int i = MAX - 1;
+//     while (i >= s->top && s->items[i] > value) {
+//         s->items[i + 1] = s->items[i];
+//         i--;
+//     }
 
-    s->top--; // move top left
-    s->items[i + 1] = value; // place new element
-}
+//     s->top--;
+//     s->items[i + 1] = value;
+// }
 
 int pop (Stack *s) {
     if (isEmpty(s)) {
@@ -107,6 +107,8 @@ int main() {
     push(stack, 30);
     push(stack, 40);
     push(stack, 50);
+
+    //pushSorted(stack, 25);
 
     display(stack);
 
