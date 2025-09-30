@@ -87,7 +87,7 @@ Schedule_V1 common_days_v1(Schedule_V1 sched1, Schedule_V1 sched2) {
 }
 
 //this is the union function so nangita tas days that are schedules in EITHER of the sched
-Schedule_V1 all_busy_days_v1(Schedule_V1 sched1, Schedule_V2 sched2) {
+Schedule_V1 all_busy_days_v1(Schedule_V1 sched1, Schedule_V1 sched2) {
     return sched1 | sched2;
 }
 
@@ -96,15 +96,19 @@ Schedule_V1 only_in_first_sched_v1(Schedule_V1 sched1, Schedule_V1 sched2) {
     return sched1 & (~sched2);
 }
 
+Schedule_V1 only_in_first_v1(Schedule_V1 A, Schedule_V1 B) {
+    return A & (~B);  
+}
+
 //to debug pani
 void display_sched_v1(const char* label, Schedule_V1 schedule) {
-    printf("%s: ", label);
+    printf("%s ", label);
     bool first = true; 
 
     for (int i = 0; i <= 7; i++) {
         if(is_scheduled_v1(schedule, i)) {
             if (!first) printf(", ");
-            printf("%d", i);
+            printf("%s", day_names[i]);
             first = false;
         }
     }
@@ -128,7 +132,7 @@ void init_sched_v2(Schedule_V2 *schedule) {
 //to be debugged
 void mark_day_v2(Schedule_V2 *schedule, int day) {
     if (day < 0 || day > 7) return;
-    schedule->days != (1 << day);
+    schedule->days |= (1 << day);
 }
 
 //to be debugged
@@ -164,7 +168,7 @@ Schedule_V2 common_days_v2(Schedule_V2 sched1, Schedule_V2 sched2) {
 
 //union
 Schedule_V2 all_busy_days_v2(Schedule_V2 sched1, Schedule_V2 sched2) {
-    Schdeule_V2 sched3;
+    Schedule_V2 sched3;
 
     sched3.days = sched1.days | sched2.days;
 
@@ -180,14 +184,19 @@ Schedule_V2 only_in_first_sched_v2(Schedule_V2 sched1, Schedule_V2 sched2) {
     return sched3;
 }
 
-void display_schedule_v2(const char* label, Schedule_v2 schedule) {
-    printf("%s: ", label);
+Schedule_V2 only_in_first_v2(Schedule_V2 A, Schedule_V2 B) {
+    Schedule_V2 result;
+    result.days = A.days & (~B.days);
+    return result;
+}
+
+void display_sched_v2(const char* label, Schedule_V2 schedule) {
+    printf("%s ", label);
     bool first = true;
     for (int i = 0; i <= 7; i++) {
     if(is_scheduled_v2(schedule, i)) {
         if (!first) printf(", ");
-        // printf("%s", day_names[i]); --- lahi ang printing format for var 2
-        printf("%s" i);
+        printf("%s", day_names[i]); 
         first = false;
     }
 }
@@ -222,8 +231,8 @@ void unmark_day_v3(Schedule_V3 schedule, int day) {
     schedule[day] = false;
 }
 
-void is_scheduled_v3(Schedule_V3 schedule, int day) {
-    if (day < 0 || day > 7) return;
+bool is_scheduled_v3(Schedule_V3 schedule, int day) {
+    if (day < 0 || day > 7) return false;
 
     return schedule[day];
 }
@@ -249,7 +258,8 @@ void only_in_first_v3(Schedule_V3 sched1, Schedule_V3 sched2, Schedule_V3 sched3
     }
 }
 
-void display_schedule_v3(const char* label, Schedule_V3 schedule) {
+
+void display_sched_v3(const char* label, Schedule_V3 schedule) {
     printf("%s: ", label);
     bool first = true;
     for (int i = 0; i < 8; i++) {
@@ -287,129 +297,129 @@ int main() {
     init_sched_v1(&thea_workout);
     
     // zsof works out on Mon, Wed, Fri (days 0, 2, 4)
-    printf("Zsof's Workout Schedule:\n");
-    mark_day_v1(&zsof_workout, 0);  // Monday
-    mark_day_v1(&zsof_workout, 2);  // Wednesday
-    mark_day_v1(&zsof_workout, 4);  // Friday
-    display_schedule_v1("Zsof works out", zsof_workout);
+    printf("- Zsof's Workout Schedule -\n");
+    mark_day_v1(&zsof_workout, 0); 
+    mark_day_v1(&zsof_workout, 2);  
+    mark_day_v1(&zsof_workout, 4);  
+    display_sched_v1(" ", zsof_workout); //something is wrong
     
     // shane works out on Tue, Thu, Sat (days 1, 3, 5)
-    printf("\nShane's Workout Schedule:\n");
-    mark_day_v1(&shane_workout, 1);  // Tuesday
-    mark_day_v1(&shane_workout, 3);  // Thursday
-    mark_day_v1(&shane_workout, 5);  // Saturday
-    display_schedule_v1("Shane works out", shane_workout);
+    printf("\n- Shane's Workout Schedule -\n");
+    mark_day_v1(&shane_workout, 1); 
+    mark_day_v1(&shane_workout, 3);
+    mark_day_v1(&shane_workout, 5);  
+    display_sched_v1(" ", shane_workout);
     
     // thea works out exercises on Wed, Fri, Sun (days 2, 4, 6)
-    printf("\nThea's Workout Schedule:\n");
-    mark_day_v1(&thea_workout, 2);  // Wednesday
-    mark_day_v1(&thea_workout, 4);  // Friday
-    mark_day_v1(&thea_workout, 6);  // Sunday
-    display_schedule_v1("Thea works out", thea_workout);
+    printf("\n- Thea's Workout Schedule -\n");
+    mark_day_v1(&thea_workout, 2); 
+    mark_day_v1(&thea_workout, 4); 
+    mark_day_v1(&thea_workout, 6);  
+    display_sched_v1(" ", thea_workout);
     
     // find common days when Zsof and Thea both exercise
-    printf("\n--- Analysis ---\n");
+    printf("\n\n--- Analysis ---\n");
     Schedule_V1 zsof_thea_common = common_days_v1(zsof_workout, thea_workout);
-    display_schedule_v1("Zsof and Thea both exercise", zsof_thea_common);
+    display_sched_v1("- Zsof and Thea both exercise:\n", zsof_thea_common);
     
-    // Find all days when someone is exercising
-    Schedule_V1 all_busy = all_busy_days_v1(alice_exercise, bob_exercise);
-    all_busy = all_busy_days_v1(all_busy, carol_exercise);
-    display_schedule_v1("At least one person exercising", all_busy);
+    // Find all days when someone is working out
+    Schedule_V1 all_busy = all_busy_days_v1(zsof_workout, shane_workout);
+    all_busy = all_busy_days_v1(all_busy, thea_workout); //bali gi join natong union-ing the first two sets then unioning the third set with the union from the previous sets
+    display_sched_v1("\n- At least one person working out:\n", all_busy);
     
-    // Find days when Alice exercises but Bob doesn't
-    Schedule_V1 alice_not_bob = only_in_first_v1(alice_exercise, bob_exercise);
-    display_schedule_v1("Alice exercises (Bob doesn't)", alice_not_bob);
-    
-    printf("\nMemory used: %lu bytes per person\n", sizeof(Schedule_V1));
+    // Find days when Zsof is working out but Shane isn't
+    Schedule_V1 zsof_not_shane = only_in_first_v1(zsof_workout, shane_workout);
+    display_sched_v1("\n- Zsof exercises but Shane doesn't:\n", zsof_not_shane);
     
     // ========================================================================
-    // USING VARIATION 2: BIT FIELDS (Clean code)
+    // USING VARIATION 2: BIT FIELDS 
     // ========================================================================
+
     printf("\n\n===== VARIATION 2: BIT FIELDS APPROACH =====\n");
-    printf("(Good balance of efficiency and readability)\n\n");
-    
+
     // Track class attendance
-    Schedule_V2 alice_classes, bob_classes;
-    init_v2(&alice_classes);
-    init_v2(&bob_classes);
     
-    // Alice has classes Mon-Fri (days 0-4)
-    printf("Alice's Class Schedule:\n");
+    Schedule_V2 zsof_classes, shane_classes;
+
+    init_sched_v2(&zsof_classes);
+    init_sched_v2(&shane_classes);
+
+    // Zsof has classes Mon-Fri (days 0-4)
+    printf("\n- Zsof's Class Schedule: -\n");
     for (int i = 0; i <= 4; i++) {
-        mark_day_v2(&alice_classes, i);
+        mark_day_v2(&zsof_classes, i);
     }
-    display_schedule_v2("Alice has classes", alice_classes);
+
+    display_sched_v2(" ", zsof_classes);
     
-    // Bob has classes Tue, Thu, Fri (days 1, 3, 4)
-    printf("\nBob's Class Schedule:\n");
-    mark_day_v2(&bob_classes, 1);
-    mark_day_v2(&bob_classes, 3);
-    mark_day_v2(&bob_classes, 4);
-    display_schedule_v2("Bob has classes", bob_classes);
+    // Shane has classes Tue, Thu, Fri (days 1, 3, 4)
+    printf("\n- Shane's Class Schedule: - \n");
+    mark_day_v2(&shane_classes, 1);
+    mark_day_v2(&shane_classes, 3);
+    mark_day_v2(&shane_classes, 4);
+    display_sched_v2(" ", shane_classes);
     
-    // Find days when both have classes (can study together after)
-    printf("\n--- Analysis ---\n");
-    Schedule_V2 study_together = common_days_v2(alice_classes, bob_classes);
-    display_schedule_v2("Can study together after class", study_together);
+    // Find days when both have classes (study date together)
+    printf("\n\n--- Analysis ---\n");
+    Schedule_V2 study_together = common_days_v2(zsof_classes, shane_classes);
+    display_sched_v2("Can study together after class\n", study_together);
     
-    // Find days when only Alice has class
-    Schedule_V2 alice_only = only_in_first_v2(alice_classes, bob_classes);
-    display_schedule_v2("Only Alice has class", alice_only);
-    
-    printf("\nMemory used: %lu bytes per person\n", sizeof(Schedule_V2));
+    // Find days when only Zsof has class
+    Schedule_V2 zsof_only = only_in_first_v2(zsof_classes, shane_classes);
+    display_sched_v2("\nOnly Zsof has class\n", zsof_only);
     
     // ========================================================================
     // USING VARIATION 3: BOOLEAN ARRAY (Most intuitive)
     // ========================================================================
     printf("\n\n===== VARIATION 3: BOOLEAN ARRAY APPROACH =====\n");
-    printf("(Most beginner-friendly and readable)\n\n");
     
     // Track study sessions
-    Schedule_V3 alice_study, bob_study, carol_study, group_study;
-    init_v3(alice_study);
-    init_v3(bob_study);
-    init_v3(carol_study);
+    Schedule_V3 zsof_study, shane_study, thea_study, group_study;
+
+    init_sched_v3(zsof_study);
+    init_sched_v3(shane_study);
+    init_sched_v3(thea_study);
     
-    // Alice studies on Mon, Tue, Wed, Thu (days 0, 1, 2, 3)
+    // Zsof studies on Mon, Tue, Wed, Thu (days 0, 1, 2, 3)
     printf("Alice's Study Schedule:\n");
-    mark_day_v3(alice_study, 0);  // Monday
-    mark_day_v3(alice_study, 1);  // Tuesday
-    mark_day_v3(alice_study, 2);  // Wednesday
-    mark_day_v3(alice_study, 3);  // Thursday
-    display_schedule_v3("Alice studies", alice_study);
+    mark_day_v3(zsof_study, 0); 
+    mark_day_v3(zsof_study, 1);  
+    mark_day_v3(zsof_study, 2); 
+    mark_day_v3(zsof_study, 3);
+    display_sched_v3("Zsof studies", zsof_study);
     
-    // Bob studies on Tue, Wed, Fri (days 1, 2, 4)
-    printf("\nBob's Study Schedule:\n");
-    mark_day_v3(bob_study, 1);  // Tuesday
-    mark_day_v3(bob_study, 2);  // Wednesday
-    mark_day_v3(bob_study, 4);  // Friday
-    display_schedule_v3("Bob studies", bob_study);
+    //Shane studies on Tue, Wed, Fri (days 1, 2, 4)
+    printf("\nShane's Study Schedule:\n");
+    mark_day_v3(shane_study, 1);
+    mark_day_v3(shane_study, 2); 
+    mark_day_v3(shane_study, 4);  
+    display_sched_v3("Shane studies", shane_study);
     
-    // Carol studies on Wed, Thu, Sat (days 2, 3, 5)
+    // Thea studies on Wed, Thu, Sat (days 2, 3, 5)
     printf("\nCarol's Study Schedule:\n");
-    mark_day_v3(carol_study, 2);  // Wednesday
-    mark_day_v3(carol_study, 3);  // Thursday
-    mark_day_v3(carol_study, 5);  // Saturday
-    display_schedule_v3("Carol studies", carol_study);
+    mark_day_v3(thea_study, 2); 
+    mark_day_v3(thea_study, 3); 
+    mark_day_v3(thea_study, 5); 
+    display_sched_v3("Thea studies", thea_study);
     
-    // Find days when all three can study together
+    // Find days when all three of us can study together
     printf("\n--- Analysis ---\n");
-    common_days_v3(alice_study, bob_study, group_study);
-    common_days_v3(group_study, carol_study, group_study);
-    display_schedule_v3("All three can study together", group_study);
+    common_days_v3(zsof_study, shane_study, group_study);
+    common_days_v3(group_study, thea_study, group_study);
+    display_sched_v3("All three can study together during these days: \n", group_study);
+    display_sched_v3("All three can study together", group_study);
     
     // Find days when at least one person is studying
-    all_busy_days_v3(alice_study, bob_study, group_study);
-    all_busy_days_v3(group_study, carol_study, group_study);
-    display_schedule_v3("At least one person studying", group_study);
+    all_busy_days_v3(zsof_study, shane_study, group_study);
+    all_busy_days_v3(group_study, thea_study, group_study);
+    display_sched_v3("At least one person studying", group_study);
     
-    // Find days when Alice studies but Carol doesn't (can ask Carol for help)
-    only_in_first_v3(alice_study, carol_study, group_study);
-    display_schedule_v3("Alice free (Carol studying)", group_study);
+    // Find days when Zsof studies but Thea doesn't (can ask Thea for help)
+    only_in_first_v3(zsof_study, thea_study, group_study);
+    display_sched_v3("Zsof is free (Thea studying)", group_study);
+
     
-    printf("\nMemory used: %lu bytes per person\n", sizeof(Schedule_V3));
-    
+    /*
     // ========================================================================
     // PRACTICAL USE CASE: Finding Best Meeting Day
     // ========================================================================
@@ -465,6 +475,8 @@ int main() {
     printf("- Variation 2: %lu bytes (%.2f KB)\n", 1000 * sizeof(Schedule_V2), 1000 * sizeof(Schedule_V2) / 1024.0);
     printf("- Variation 3: %lu bytes (%.2f KB)\n", 1000 * sizeof(Schedule_V3), 1000 * sizeof(Schedule_V3) / 1024.0);
     printf("================================================================================\n");
+
+    */
     
     return 0;
 }
