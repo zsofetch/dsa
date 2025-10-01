@@ -15,7 +15,7 @@ Days of the week:
 4 = Friday
 5 = Saturday
 6 = Sunday
-7 = (ambot it needs to be 8 bits so lets js say this is an extra day for special events or sum shit)
+7 = (ambot it needs to be 8 bits so lets js say this is an extra day for special events or sumthing)
 
 Tasks to track:
 - Workout
@@ -23,6 +23,8 @@ Tasks to track:
 - Class
 - Scheds with Friends
 - Special Days
+
+//gikapoy nakog format sa main
 */
 
 #include <stdio.h>
@@ -33,7 +35,6 @@ Tasks to track:
 // VARIATION 1: BITMASK APPROACH
 // ============================================================================
 // This variation is for tracking many schedules of students
-// Each student's schedule fits in just 1 byte
 
 typedef unsigned char Schedule_V1;
 
