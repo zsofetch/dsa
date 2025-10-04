@@ -1,0 +1,138 @@
+// If <conio.h> is not supported from your IDE,
+// you may remove the pause() function and all of the function calls.
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <conio.h>
+
+typedef struct node {
+	int data;
+	struct node* next;
+} *SET;
+
+void initialize(SET *S);
+void insertUniqueSorted(SET *S, int elem);
+int find(SET S, int elem);
+void deletion(SET *S, int elem);
+SET setUnion(SET A, SET B);
+SET setIntersection(SET A, SET B);
+SET setDifference(SET A, SET B);
+
+// Completed Functions
+void display(SET S);
+void pause();
+
+int main(){
+	SET A, B, U, I, D;
+	int i;
+	
+	initialize(&A);
+	initialize(&B);
+	
+	printf("Initializing SET A:\n");
+	for(i = 0; i < 10; i++){
+		insertUniqueSorted(&A, i + 1); // Set A contains 1 to 10
+	}
+	
+	insertUniqueSorted(&A, 5); // Check if can insert a duplicate element
+	
+	printf("\nInitializing SET B:\n");
+	for(i = 0; i < 10; i++){
+		insertUniqueSorted(&B, i + 5); // Set B contains 5 to 14
+	}
+	
+	printf("\nSET A:\n");
+	display(A);
+	
+	printf("\nSET B:\n");
+	display(B);
+	
+	pause();
+	
+	// Check if find works (both cases)
+	printf("The element 8 %s in the set.\n", find(A, 8) ? "exists" : "does not exist");
+	printf("The element 15 %s in the set.\n", find(A, 15) ? "exists" : "does not exist");
+	
+	// Check if deletion works (both cases)
+	deletion(&A, 8);
+	deletion(&A, 15);
+	
+	printf("\nSET A:\n");
+	display(A);
+	
+	pause();
+	
+	U = setUnion(A, B); // U should have 1 to 14
+	printf("\nSet Union (A and B):\n");
+	display(U);
+	
+	pause();
+	
+	I = setIntersection(A, B); // I should have 5 to 10 (except 8 since we deleted 8 from set A)
+	printf("\nSet Intersection (A and B):\n");
+	display(I);
+	
+	pause();
+	
+	D = setDifference(A, B); // D should have 1 to 4
+	printf("\nSet Difference (A - B):\n");
+	display(D);
+	
+	return 0;
+}
+
+// This function initializes S to NULL to indicate an empty set
+void initialize(SET *S){
+
+}
+
+// This function inserts the passed element into the set
+// The set should have unique elements (no duplicates) and in ascending order
+// If insertion is successful, print a message that the element has been inserted
+void insertUniqueSorted(SET *S, int elem){
+	
+}
+
+// This function returns 1 if the passed element exists in the set
+// Otherwise, it returns 0
+int find(SET S, int elem){	
+
+}
+
+// This function deletes the passed element in the set
+// If deletion is successful, print a message that the element is successfully deleted from the set
+// Else, print a message that the element does not exist from the set
+void deletion(SET *S, int elem){
+
+}
+
+// This function returns a set that combines the elements of set A and set B
+SET setUnion(SET A, SET B){
+
+}
+
+// This function returns a set that has the common elements of set A and set B
+SET setIntersection(SET A, SET B){
+
+}
+
+// This function returns a set that has the unique elements of set A that set B does not have
+SET setDifference(SET A, SET B){
+
+}
+
+// This function is completed for you
+void display(SET S){
+	for(; S != NULL; S = S->next){
+		printf("%d -> ", S->data);
+	}
+	
+	printf("NULL\n\n");
+}
+
+// This function is completed for you
+void pause(){
+	printf("\n\nPress any key to continue...");
+	getch();
+	system("CLS");
+}

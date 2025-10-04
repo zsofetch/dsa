@@ -1,0 +1,56 @@
+=========== 1. Dictionaries ===========
+- Think of a dictionary in real life:
+    * You look up a word (the key)
+    * You find its definition (the value)
+- A dictionary stores key-value pairs.
+- In C, we build a dictionary using data structures (like arrays, linked lists, or hashing)
+- Dictionary operations typically include 
+     * Insert(key, value) -> add a new word and its meaning
+     * Search(key) -> find the meaning of a word
+     * Delete(key) -> remove a word from the dictionary
+
+=========== 2. Hashing ===========
+- Hashing makes it fast (O(1)) to search for a value in a dictionary
+- Take the key and run it through a hash function -> produces a number (index) 
+- Use that number as an address in an array
+
+Ways to fix collisions: (collisions happen when two keys hash to the same index)
+
+- Chaining -> store multiple values at the same index using a linked lists
+- Open addressing -> if a slot is taken, try another nearby slot.
+
+OPEN HASHING (Separate Chaining)
+- if two keys go to the same index, we keep a linked list (or chain) at that index
+- each array slot points to a list of entries
+- if multiple keys hash to the same index, they just get chained together
+
+example:
+
+hash("dog") -> 2
+hash("cat") -> 2
+hash("cow") -> 2
+
+index 0: NULL
+index 1: NULL
+index 2: dog -> cat -> cow
+index 3: NULL
+index 4: NULL
+
+CLOSED HASHING (Open Addressing)
+- all keys are stored directly inside the array. No extra lists.
+- if a spot is taken, probe (search) for another empty spot
+
+hash("dog") -> 2
+hash("cat") -> 2 (collision)
+try next slot -> 3
+
+index 0: NULL
+index 1: NULL
+index 2: dog
+index 3: cat
+index 4: NULL
+
+--- Common Probing Strategies ---
+  * Linear probing - check next slot: (index + 1) % size
+  * Quadratic probing - check 1², 2², 3² steps away
+  * Double hashing - use a second hash function to find step size
