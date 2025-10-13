@@ -51,59 +51,36 @@ int main(){
 	return 0;
 }
 
+// This funcition initializes an empty dictionary.
+// Set each bucket to NULL.
 void initializeDict(Dictionary D){
-	int i;
-	
-	for(i = 0; i < MAX; i++){
-		D[i] = NULL;
-	}
+
 }
 
+// This function returns a hash value based on the remainder of the ASCII value of the first letter (capitalized) of the name divided by 65.
 int hashBrown(String name){
-	return toupper(name[0]) % 65;
+
 }
 
+// This function returns a Boolean value of either TRUE or FALSE.
+// It checks if the name is a member in the dictionary.
 Boolean isMember(Dictionary D, String name){
-	SET trav;
-	int key = hashBrown(name);
-	
-	for(trav = D[key]; trav != NULL && strcmp(trav->name, name) != 0; trav = trav->next){}
-	
-	return (trav != NULL) ? TRUE : FALSE;
+
 }
 
+// This function inserts the name into the dictionary in ascending order, with no duplicates of the name.
+// If the name already exists, print a message that the name already exists in the dictionary.
 void insertUniqueSorted(Dictionary D, String name){
-	SET temp, *trav;
-	int key = hashBrown(name);
-	
-	for(trav = &D[key]; *trav != NULL && strcmp((*trav)->name, name) < 0; trav = &(*trav)->next){}
-	
-	if(*trav == NULL || strcmp((*trav)->name, name) > 0){
-		temp = (SET)malloc(sizeof(struct node));
-		strcpy(temp->name, name);
-		temp->next = *trav;
-		*trav = temp;
-	} else {
-		printf("\tThe name [%s] already exists in the dictionary.\n", name);
-	}
+
 }
 
+// This function deletes a name from the dictionary.
+// If name does not exist, print a message that the name does not exist in the dictionary.
 void deleteName(Dictionary D, String name){
-	SET temp, *trav;
-	int key = hashBrown(name);
-	
-	for(trav = &D[key]; *trav != NULL && strcmp((*trav)->name, name) != 0; trav = &(*trav)->next){}
-	
-	if(*trav != NULL){
-		temp = *trav;
-		*trav = temp->next;
-		
-		free(temp);
-	} else {
-		printf("\tThe name [%s] does not exist in the dictionary.\n", name);
-	}
+
 }
 
+// This function is completed for you.
 void displayDict(Dictionary D){
 	SET trav;	
 	int i;
@@ -129,6 +106,7 @@ void displayDict(Dictionary D){
 	printf("\n");
 }
 
+// This function is completed for you.
 void populateDict(Dictionary D){
 	int i;
 	
