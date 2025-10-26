@@ -76,22 +76,21 @@ int hash(Dictionary D, int elem) {
 // - Prevents duplicates
 // - Uses p2p (*trav) for easy insertion
 void insertUniqueSorted(Dictionary D, int elem) {
-    int key = hash(D, elem); //find which bucket to use
+    int key = hash(D, elem); //find which bucket to use - key gets the bucket index using the hash function
     SET *trav = &D[key], newNode;
     /*
-      - D is an array of pointers to struct node
-      - D[i] is a linked list head pointer (can be NULL or point to the first node)
-      - D[key] is a pointer to the first node in bucket [key]
-        so &D[key] is the address of that pointer
-      - In other words, &D[key] is a pointer to the head pointer
-      - SET *trav = &D[key] means trav is a pointer to the pointer D[key]
+      - D[key] is the pointer to the first node in that bucket
+	  - &D[key] is the address of that pointer
+	  - so trav is a p2p 
+	  -
     */
 
 while (*trav != NULL && (*trav)->data < elem) {
-    trav = &(*trav)->next //move to the next node (via p2p)
+    trav = &(*trav)->next; //move to the next node (via p2p)
     /*traverse until we find:
       - a node with data >= elem (insert before it)
       - or the end of the list (insert at tail)
+	  - stop if we find a node whose data is greater than or equal to elem
     */
 }
 
@@ -103,9 +102,9 @@ if (*trav != NULL && (*trav)->data == elem) {
 
 //create new node
 newNode = (SET)malloc(sizeof(struct node));
-newNode->data = elem;
+newNode->data = elem; //store the element 
 newNode->next = *trav; //point to the current node (*trav)
-*trav = newNode //link previous node (or head) to new node
+*trav = newNode; //link previous node (or head) to new node
 
 printf("Inserted %d in bucket [%d].\n", elem, key);
 
@@ -114,8 +113,8 @@ printf("Inserted %d in bucket [%d].\n", elem, key);
 //if element is found, delete the element and print a message that it is deleted
 //else, print a message that the element does not exist in the dictionary
 void deleteElem(Dictionary D, int elem){
-	int key = hash(D, elem);
-	SET *trav = &D[key], temp;
+	int key = hash(D, elem); //again find which bucket the element should be in
+	SET *trav = &D[key], temp; //trav starts at the address of D[key] so we can modify the pointer that points to the node we want to delete
 	
 	// Find node with data == elem
 	while(*trav != NULL && (*trav)->data != elem){
@@ -137,7 +136,7 @@ void deleteElem(Dictionary D, int elem){
 // If the elem exists, return TRUE
 // else, return FALSE
 Boolean isMember(Dictionary D, int elem){
-	int key = hash(D, elem);
+	int key = hash(D, elem); //go to the correct bucket
 	SET trav = D[key];  // start of the linked list
 	
 	while(trav != NULL){
@@ -157,7 +156,7 @@ void makeNull(Dictionary D){
 			trav = trav->next;
 			free(temp);
 		}
-		D[i] = NULL; // reset bucket
+		D[i] = NULL; // reset bucket just like initialization
 	}
 	printf("Dictionary is now empty.\n");
 }
