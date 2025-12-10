@@ -1,4 +1,9 @@
-=========== 1. Dictionaries ===========
+=========== 1. Sets ===========
+- A set is a collection of unique elements.
+- We can simulate sets in C by using arrays (and manually checking for duplicates)
+- Bitwise representation (using bits to represent membership)
+
+=========== 2. Dictionaries ===========
 - Think of a dictionary in real life:
     * You look up a word (the key)
     * You find its definition (the value)
@@ -9,7 +14,7 @@
      * Search(key) -> find the meaning of a word
      * Delete(key) -> remove a word from the dictionary
 
-=========== 2. Hashing ===========
+=========== 3. Hashing ===========
 - Hashing makes it fast (O(1)) to search for a value in a dictionary
 - Take the key and run it through a hash function -> produces a number (index) 
 - Use that number as an address in an array
@@ -58,3 +63,205 @@ index 4: NULL
   ----Progressive Overflow------
 
   it needs primary and secondary 
+
+terms:
+
+- synonyms
+- collision
+- linear hashing (linear probing)
+- displacement
+- perfect hash function -> 
+
+
+CLOSED HASHING VARIATIONS
+
+Variation 1 - Placing Synonyms in a Separate Area
+Variation 2 - Linking Synonyms
+Variation 3 -
+
+
+TREES
+
+Path - (the count of the number of nodes) - 1
+Depth - a node’s unique path from the root
+Height - a node’s longest path to a leaf
+
+Order of Nodes
+
+Preorder - root – left — right
+Postorder - left – right – root
+Inorder - left – root – right
+
+Prefix - listing of labels in preorder
+Postfix - “      “     “   “  postorder
+Infix -   “      “     “   “  inorder
+
+Label Tree - those nodes who have labels
+
+Parent Pointer Representation
+An array of parents
+Indexes are the child node
+Contents are the parent node
+
+Representation by List of Children
+An array of linked list
+Hard to distinguish the root therefore the root field is created
+
+Breadth - First Traversal - each node is explored level-by-level
+Depth - First Traversal - explores nodes as far as possible
+
+Recursion - use recursive functions to traverse. Easier to implement, somewhat harder to trace
+Iterative - use loops to traverse the tree. Easier to trace, somewhat harder to implement
+
+ADT TREES
+Both an abstract data type and a tree data structure
+
+IMPLEMENTATIONS
+
+Parent Pointer - wherein indices represent the nodes and values point to their parents
+
+List of Children - wherein each index is a pointer that represents a node in the tree that lists their respective children
+
+BINARY SEARCH TREES
+Either contain no children, 1 child, or 2 children
+Each child is designated as left-child or right-child
+
+GRAPHS
+
+A finite set of points called vertices or nodes and connected together with a finite set of edges
+Each edge will join a pair of nodes
+
+TWO TYPES OF GRAPHS
+Complete Graph - if every pair of node is joined by an edge 
+Connected Graph - if there exists a path or any arbitrary source node to an arbitrary destination node; Naay path na mo agi sa tanan nodes
+
+
+HOW TO DETERMINE THE EDGES IN A COMPLETE GRAPH
+(n-1) * n/2
+the degree of each vertex shall be n-1 
+
+Path - a sequence of vertices
+Directed Graph - uses an *arrow to connect between nodes.
+
+*arrow - is called an arc
+Arc - joins an ordered pair of distinct vertices
+Undirected Graph - has nodes but no connection of edges
+
+This is an undirected graph so it’s not possible to determine the node with the most edges.
+
+What is the longest path?
+T7 > T4 > T3 > T1 > T2 > T5
+The length is determined by the  number of edges or arc so the length is 5
+
+Simple Path - if all vertices in a path are distinct (unique/walay magbalik2 na vertex) and both paths from A to B and B to A are simple paths
+
+Simple Cycle - a simple path that begins and ends at the same vertex (basically a loop)
+
+Cyclic Graph - when a graph contains a cycle
+Acyclic Graph - when a graph has no cycle
+
+Incident - a node is an incident to an arc if the node is one of the two nodes in the ordered pairs
+Degree - number of arcs incident to a node
+
+P1 is an incident to arc X
+P2 is an incident to arc X
+
+P1 has 3 degrees
+P2 has 2 degrees
+
+TWO TYPES OF DEGREES
+Indegree - the number of arcs that have the node as a head
+Outdegree - the number of arcs that have the node as a tail
+
+P2 has 2 indegrees and 0 outdegrees
+P1 has 2 outdegrees and 1 indegree
+
+Weighted Graph - the weight of each arc is the remainder of head % tail
+Example: the weight of 3 and 10 is 1
+         the weight of 45 and 10 is 5
+         the weight of 45 and 2 is 1
+
+Labeled Graph - a diagraph in which arcs and or vertices have an associated label of any value
+Murag weighted graph but instead of calculating head % tail kay ikaw magbuot sa weight
+
+
+GRAPH REPRESENTATIONS
+
+Adjacency Matrix (2d arrays)
+We use 2D arrays to represent this graph
+The number of columns and rows is determined by the number of nodes
+Columns are head; Rows are tails
+Vertices of paths to themselves is 0
+
+For weighted graphs, just populate the adjacent vertices with the actual weights
+
+Ang initial/default value of a labeled graph is the largest value which is infinity
+
+Checking if an arc/edge exists between two vertices is constant time O(1). Best suitable for denser graphs.
+
+Open Hashing/Adjacency List(an array of linked list)
+The children are the adjacent nodes
+
+Determine outdegrees
+Best for out-degree queries. Search will be O(n) per vertex. Space efficient
+
+Cursor Based
+Divide the array into 2. Left side for heads, right side for tails.
+
+
+GRAPH TRAVERSALS
+Depth First Search (DFS)
+Breadth First Search (BFS)
+
+Single Source Shortest Path (SSSP)
+Finds the lowest total weight from a source/starting vertex to all the other vertices in the graph
+SSSP ALGORITHMS
+
+SHORTEST PATH ALGORITHMS
+DIJKSTRA’S ALGORITHM
+Finds the shortest path from one starting node to all other nodes in the graph
+
+HOW IT WORKS
+Start at the source node and mark all others as infinite distance
+Visit the unvisited node with the smallest known distance
+Check its neighbors. Is the path from Start -> Current -> Neighbor shorter than the current known path to Neighbor?
+If yes, update the distance, Repeat until all nodes are visited.
+
+FLOYD-WARSHALL ALGORITHM
+Finds the shortest path between every pair of nodes in the graph
+Complexity of O(v^3)
+
+HOW IT WORKS
+It create a matrix representing distances between all nodes
+It iterates through the graph three times (triple nested loop). It asks a specific question for every pair of nodes (A and B) and every possible intermediate node (K)
+Is it faster to go directly from A -> B or is it faster to go A -> K -> B?
+It updates the matrix continuously until the best paths are found.
+
+MINIMUM SPANNING TREE (MST) ALGORITHMS
+PRIM’S ALGORITHM
+Builds the MST by growing a single tree from a starting point
+
+HOW IT WORKS
+Pick an arbitrary starting node. This is your “visited set”
+Look at all edges connecting the visited set to the outside world
+Pick the cheapest edge. Add that new node to the visited set
+Repeat until all nodes are in the set.
+
+KRUSKAL’S ALGORITHM
+Builds the MST by adding the cheapest edges anywhere in the graph as long as they don’t form a loop
+
+HOW IT WORKS
+List all edges in the entire graph
+Sort them from smallest weight to largest weight
+Iterate through the sorted list:
+Take the smallest edge. Does adding it create a cycle (loop)?
+NO: Add it to the tree.
+YES: Discard it.
+Repeat until you have (V - 1) edges
+
+
+
+TIME COMPLEXITY
+Adjacency Matrix: O(v^2)
+Adjacency List: O(v + e log v)
+

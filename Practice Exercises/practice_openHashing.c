@@ -71,19 +71,60 @@ int main(){
 // This functions initalizes the dictionary
 // Set each indices of the dictionary to be NULL
 void initDict(Dictionary D){
-
+    //iterate through the dictionary
+	   //set each indices in D to NULL
 }
 
 // This function will return a key based on the ONES digit of the passed elem
 // For example, the passed elem is 10. This function will return 0 since the ONES digit of elem is 0.
 int hash(Dictionary D, int elem){
-
+    //return elem modulus MAX
 }
 
 // This function inserts an element into the dictionary in ascending order
 // Ensures no duplicates are inserted
 void insertUniqueSorted(Dictionary D, int elem){
 
+	//declare *trav and temp variable with datatype SET
+
+	//initialize key variable to hash function
+
+	//allocate memory for newNode with datatype SET
+
+	//initialize trav to address of D at index key
+
+	//set newNode's date to elem
+
+	//if newNode is not NULL
+	   
+	   //if *trav is NULL
+
+	        //initialize newNode's next to *trav
+
+		    //initialize *trav to newNode
+
+		    //print that elem is inserted in the dictionary
+
+		//else 
+
+		    //butterfly loop - ; while *trav is not NULL and *trav's data is less than elem; initialize trav to address of *trav's next {}
+
+			//if *trav is NULL or *trav's data is greater than elem
+			 
+			    //initialize temp to *trav
+
+				//initialize newNode's next to temp
+
+				//initialize *trav to newNode
+
+				//print that elem is inserted in the dictionary
+
+		    //else
+			    
+			    //print that elem already exists in the dictionary
+
+		//else
+		    //print malloc failed
 }
 
 // This function will delete an element in the dictionary
@@ -91,12 +132,38 @@ void insertUniqueSorted(Dictionary D, int elem){
 // Else, print a message that the element does not exist in the dictionary
 void deleteElem(Dictionary D, int elem){
 
+	//declare temp and *trav variable with datatype SET
+
+	//initialize key variable to hash function
+
+	//butterfly loop - initialize trav to address of D at index key; while *trav is not NULL and *trav's data is not equal to elem; initialize trav to address of *trav's next {}
+
+	//if *trav is not NULL
+
+	   //initialize temp to *trav
+
+	   //initialize *trav to temp's next
+
+	   //free temp
+
+	   //print that elem is deleted from the dictionary
+
+	//else print that element does not exist in the dictionary
+
 }
 
 // This function will check if the passed elem exists in the dictionary
 // If the elem exists, return TRUE
 // else, return FALSE
 Boolean isMember(Dictionary D, int elem){
+
+	//declare trav variable with datatype SET
+
+	//initialize idx variable to hash function
+
+	//butterfly loop - initialize trav to D at index idx; trav is not NULL and trav's data is not equal to elem; initialize trav to trav's next {}
+
+	//return trav is not NULL ? TRUE OR FALSE
 
 }
 
@@ -134,4 +201,18 @@ void display(Dictionary D){
 // Once done, print a message that the dictionary is now empty
 void makeNull(Dictionary D){
 
+	//declare temp and *trav variable with datatype SET
+
+	//create a for loop and traverse through the dictionary
+
+	   //in the nested loop - while trav = address of D at index i; *trav is not NULL;
+
+	       //initialize temp to *trav
+
+		   //initialize *trav to temp's next
+
+		   //free temp
+
+	//exit for loops and print dictionary is now empty
 }
+

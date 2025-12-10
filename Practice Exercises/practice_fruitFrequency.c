@@ -100,25 +100,55 @@ int main(){
 // Each bucket shall have an EMPTY elem and 0 frequency.
 // EMPTY is defined as a macro.
 void initDictionary(Dictionary D){
+	//iterate through each index of the dictionary
 
+	//strcpy the elem of D at index i to EMPTY
+
+	//set the frequency of D at index i to 0
 }
 
 // This function returns a hash value based on the remainder of total ASCII value of the fruit divided by MAX.
 // E.g. The string "Plum" has 414 total ASCII Value.
 int hashBrown(String fruit){
 
+	//initialize totalValue to 0
+
+	//iterate through each index of the fruit string until it is not equal to '\0'
+
+	   //add totalValue for each character in the fruit string
+
+	//return totalValue modulus MAX
 }
 
 // This function returns a Boolean value of either TRUE OR FALSE.
 // It will check if the passed fruit is a member in the dictionary.
 Boolean isMember(Dictionary D, String fruit){
+	//declare i and sl variable
 
+	//butterfly loop - initialize i to hashBrown(fruit); sl = 1; sl < MAX and strcmp the element of D at index i and fruit is not equal to 0; i = (i + 1) % MAX, sl++ {}
+
+	//return sl < MAX is it TRUE else FALSE
 }
 
 // This function inserts a fruit into the dictionary based on its hash value.
 // If the fruit already exists in the dictionary, increase its frequency.
 // If the dictionary is full, print a message that it is full and the fruit cannot be inserted.
 void insertFruit(Dictionary D, String fruit){
+	//declare i and sl variable
+
+	//butterfly loop - initialize i to hashBrown function, sl = 1; sl < MAX and strcmp D at index i and fruit is not equal to 0 and strcmp D at index i and EMPTY is not equal to 0 and strcmp D at index i and DELETED is not equal to 0; i = (i + 1) % MAX, sl++){}
+
+	//if sl < MAX and strcmp D at index i and fruit is not equal to 0
+
+	   //strcpy D at index i elem to fruit
+
+	   //increment frequency of D at index i
+	
+	//else if sl < MAX and strcmp D at index i and fruit is equal to 0
+
+	    //increment frequency of D at index i
+	
+	//else print dictionary is full and fruit cannot be inserted
 
 }
 
@@ -129,10 +159,33 @@ void insertFruit(Dictionary D, String fruit){
 // If fruit does not exist in the dictionary, print a message that the fruit does not exist in the dictionary.
 void deleteFruit(Dictionary D, String fruit){
 
+	//declare i and sl variable
+
+	//butterfly loop - initialize i to hashBrown function, sl = 1; sl < MAX and strcmp element of D at index i and fruit is not equal to 0 and strcmp element of D at index i and EMPTY is not equal to 0 or strcmp element of D at index i and DELETED is not equal to 0; i = (i + 1) % MAX, sl++) {}
+
+	//if sl < MAX and strmcp element of D at index i and fruit is equal to 0 
+
+	   //if frequency of D at index i is more than 1
+
+	       //decrement frequency of D at index i
+
+	// else
+
+           //strcpy element of D at index i to DELETED 
+
+		   //set frequency of D at index i to 0
+		
+    //else print fruit does not exist in the dictionary
 }
 
 // This function returns the search length of a fruit.
 int getSearchLength(Dictionary D, String fruit){
+
+	//declare i and sl variable
+
+	//butterfly loop - initialize i to hashBrown function, sl = 1; sl < MAX and strcmp element of D at index i and fruit is not equal to 0; i = (i + 1) % MAX, sl++) {}
+
+	//return sl
 
 }
 

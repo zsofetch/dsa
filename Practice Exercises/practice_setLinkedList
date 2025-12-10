@@ -1,13 +1,9 @@
-// If <conio.h> is not supported from your IDE,
-// you may remove the pause() function and all of the function calls.
-
 #include <stdio.h>
 #include <stdlib.h>
-#include <conio.h>
 
 typedef struct node {
-	int data;
-	struct node* next;
+    int data;
+    struct node* next;
 } *SET;
 
 void initialize(SET *S);
@@ -17,122 +13,167 @@ void deletion(SET *S, int elem);
 SET setUnion(SET A, SET B);
 SET setIntersection(SET A, SET B);
 SET setDifference(SET A, SET B);
-
-// Completed Functions
 void display(SET S);
 void pause();
 
 int main(){
-	SET A, B, U, I, D;
-	int i;
-	
-	initialize(&A);
-	initialize(&B);
-	
-	printf("Initializing SET A:\n");
-	for(i = 0; i < 10; i++){
-		insertUniqueSorted(&A, i + 1); // Set A contains 1 to 10
-	}
-	
-	insertUniqueSorted(&A, 5); // Check if can insert a duplicate element
-	
-	printf("\nInitializing SET B:\n");
-	for(i = 0; i < 10; i++){
-		insertUniqueSorted(&B, i + 5); // Set B contains 5 to 14
-	}
-	
-	printf("\nSET A:\n");
-	display(A);
-	
-	printf("\nSET B:\n");
-	display(B);
-	
-	pause();
-	
-	// Check if find works (both cases)
-	printf("The element 8 %s in the set.\n", find(A, 8) ? "exists" : "does not exist");
-	printf("The element 15 %s in the set.\n", find(A, 15) ? "exists" : "does not exist");
-	
-	// Check if deletion works (both cases)
-	deletion(&A, 8);
-	deletion(&A, 15);
-	
-	printf("\nSET A:\n");
-	display(A);
-	
-	pause();
-	
-	U = setUnion(A, B); // U should have 1 to 14
-	printf("\nSet Union (A and B):\n");
-	display(U);
-	
-	pause();
-	
-	I = setIntersection(A, B); // I should have 5 to 10 (except 8 since we deleted 8 from set A)
-	printf("\nSet Intersection (A and B):\n");
-	display(I);
-	
-	pause();
-	
-	D = setDifference(A, B); // D should have 1 to 4
-	printf("\nSet Difference (A - B):\n");
-	display(D);
-	
-	return 0;
+    SET A, B, U, I, D;
+    int i;
+    
+    initialize(&A);
+    initialize(&B);
+    
+    printf("Initializing SET A:\n");
+    for(i = 0; i < 10; i++){
+        insertUniqueSorted(&A, i + 1); // 1–10
+    }
+    
+    insertUniqueSorted(&A, 5); // Duplicate test
+    
+    printf("\nInitializing SET B:\n");
+    for(i = 0; i < 10; i++){
+        insertUniqueSorted(&B, i + 5); // 5–14
+    }
+    
+    printf("\nSET A:\n");
+    display(A);
+    
+    printf("\nSET B:\n");
+    display(B);
+    
+    pause();
+    
+    printf("The element 8 %s in the set.\n", find(A, 8) ? "exists" : "does not exist");
+    printf("The element 15 %s in the set.\n", find(A, 15) ? "exists" : "does not exist");
+    
+    deletion(&A, 8);
+    deletion(&A, 15);
+    
+    printf("\nSET A after deletions:\n");
+    display(A);
+    
+    pause();
+    
+    U = setUnion(A, B);
+    printf("\nSet Union (A and B):\n");
+    display(U);
+    
+    pause();
+    
+    I = setIntersection(A, B);
+    printf("\nSet Intersection (A and B):\n");
+    display(I);
+    
+    pause();
+    
+    D = setDifference(A, B);
+    printf("\nSet Difference (A - B):\n");
+    display(D);
+    
+    return 0;
 }
 
-// This function initializes S to NULL to indicate an empty set
 void initialize(SET *S){
-
+	//initialize the set to NULL
+   
 }
 
-// This function inserts the passed element into the set
-// The set should have unique elements (no duplicates) and in ascending order
-// If insertion is successful, print a message that the element has been inserted
 void insertUniqueSorted(SET *S, int elem){
-	
+	//declare temp and *trav variable with datatype SET
+
+	//butterfly loop - initialize trav to S; while *trav is not NULL and (*trav)'s data is less than elem; initialize trav to address of (*trav)'s next {}
+
+	//if (*trav is equal to NULL OR (*trav)'s data is greater than elem)
+
+	   //malloc temp 
+
+	   //if temp is not NULL
+
+	       //initialize temp's data to elem
+
+		   //initialize temp's next to *trav
+
+		   //initialize *trav to temp
+
+		//else print malloc failed
 }
 
-// This function returns 1 if the passed element exists in the set
-// Otherwise, it returns 0
-int find(SET S, int elem){	
-
+int find(SET S, int elem){
+    
+	//butterfly loop - ; S is not NULL and S's data is not equal to elem; S is equal to S's next {}
+	//return S is not NULL ? TRUE OR FALSE
 }
 
-// This function deletes the passed element in the set
-// If deletion is successful, print a message that the element is successfully deleted from the set
-// Else, print a message that the element does not exist from the set
 void deletion(SET *S, int elem){
+    //declare temp and *trav variable with datatype SET
 
+	//butterfly loop - initialize trav to S; while *trav is not NULL and (*trav)'s data is not equal to elem; initialize trav to address of (*trav)'s next {}
+
+	//if *trav is not NULL
+
+	   //initialize temp to *trav
+
+	   //initialize *trav to temp's next
+
+	   //free temp 
+
+	   //print that elem is deleted from the set
+
+	//else print that element is not found
 }
 
-// This function returns a set that combines the elements of set A and set B
 SET setUnion(SET A, SET B){
+    //declare S variable with datatype SET
 
-}
+	//call initialize function with address of S
 
-// This function returns a set that has the common elements of set A and set B
-SET setIntersection(SET A, SET B){
+	//for loop - initialize temp to A; while temp is not NULL; initialize temp to temp next
 
-}
+	    //call insertUniqueSorted function with address of S and temp->data
 
-// This function returns a set that has the unique elements of set A that set B does not have
-SET setDifference(SET A, SET B){
+	//for loop - initialize temp to B; while temp is not NULL; initialize temp to temp next
 
-}
-
-// This function is completed for you
-void display(SET S){
-	for(; S != NULL; S = S->next){
-		printf("%d -> ", S->data);
-	}
+	     //call insertUniqueSorted function with address of S and temp->data
 	
-	printf("NULL\n\n");
+	//return S
 }
 
-// This function is completed for you
+SET setIntersection(SET A, SET B){
+    //declare S variable with datatype SET
+
+	//call initialize function with address of S
+
+	//for loop - initialize tempA to A; while tempA is not NULL; initialize tempA to tempA next
+
+	    //if find function with B and tempA's data returns TRUE
+
+	        //call insertUniqueSorted function with address of S and tempA's data
+
+	//return S
+}
+
+SET setDifference(SET A, SET B){
+    //declare S variable with datatype SET
+
+	//call initialize function with address of S
+
+	//for loop - initialize tempA to A; while tempA is not NULL; initialize tempA to tempA next
+
+	    //if not find function with B and tempA's data returns TRUE
+
+	        //call insertUniqueSorted function with address of S and tempA's data
+
+	//return S
+}
+
+void display(SET S){
+    for(; S != NULL; S = S->next)
+        printf("%d -> ", S->data);
+    printf("NULL\n\n");
+}
+
 void pause(){
-	printf("\n\nPress any key to continue...");
-	getch();
-	system("CLS");
+    printf("\n\nPress Enter to continue...");
+    getchar();  // waits for user to press Enter
+    system("clear"); // works on Linux/Mac (use "cls" on Windows)
 }

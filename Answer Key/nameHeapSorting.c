@@ -9,21 +9,6 @@ void printArray(char *arr[], int n) {
     printf("\n");
 }
 
-int main() {
-    char *arr[] = {"Charlie", "Alice", "Bob", "Eve", "David", "Frank"};
-    int n = sizeof(arr) / sizeof(arr[0]);
-
-    printf("Original array of names: ");
-    printArray(arr, n);
-
-    // Perform Heap Sort (sorts alphabetically A-Z)
-    heapSort(arr, n);
-
-    printf("Sorted array of names:   ");
-    printArray(arr, n);
-
-    return 0;
-}
 
 void heapify(char *arr[], int n, int i);
 void heapSort(char *arr[], int n);
@@ -69,4 +54,20 @@ void heapSort(char *arr[], int n) {
         // Heapify the reduced heap
         heapify(arr, i, 0);
     }
+}
+ 
+int main() {
+    char *arr[] = {"Charlie", "Alice", "Bob", "Eve", "David", "Frank"};
+    int n = sizeof(arr) / sizeof(arr[0]);
+
+    printf("Original array of names: ");
+    printArray(arr, n);
+
+    // Perform Heap Sort (sorts alphabetically A-Z)
+    heapSort(arr, n);
+
+    printf("Sorted array of names:   ");
+    printArray(arr, n);
+
+    return 0;
 }

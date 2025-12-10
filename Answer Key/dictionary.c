@@ -51,59 +51,74 @@ int main(){
 	return 0;
 }
 
+// This funcition initializes an empty dictionary.
+// Set each bucket to NULL.
 void initializeDict(Dictionary D){
-	int i;
-	
-	for(i = 0; i < MAX; i++){
-		D[i] = NULL;
-	}
+//create a for loop statement traversing through the Dictionary
+
+//initialize the indexes of D to NULL
 }
 
+// This function returns a hash value based on the remainder of the ASCII value of the first letter (capitalized) of the name divided by 65.
 int hashBrown(String name){
-	return toupper(name[0]) % 65;
+    //returns a hash value - first letter of the name array is capitalized and divided by 65
+
 }
 
+// This function returns a Boolean value of either TRUE or FALSE.
+// It checks if the name is a member in the dictionary.
 Boolean isMember(Dictionary D, String name){
-	SET trav;
-	int key = hashBrown(name);
-	
-	for(trav = D[key]; trav != NULL && strcmp(trav->name, name) != 0; trav = trav->next){}
-	
-	return (trav != NULL) ? TRUE : FALSE;
+//declare trav variable with datatype SET
+
+//initialize key variable to hashBrown function
+
+//butterfly loop - initialize trav to D[key]; trav is not NULL and strcmp to trav's name and name is not equal to 0; initialize trav to trav's next {}
+
+//return trav is not NULL ? true or false
+    
 }
 
+// This function inserts the name into the dictionary in ascending order, with no duplicates of the name.
+// If the name already exists, print a message that the name already exists in the dictionary.
 void insertUniqueSorted(Dictionary D, String name){
-	SET temp, *trav;
-	int key = hashBrown(name);
-	
-	for(trav = &D[key]; *trav != NULL && strcmp((*trav)->name, name) < 0; trav = &(*trav)->next){}
-	
-	if(*trav == NULL || strcmp((*trav)->name, name) > 0){
-		temp = (SET)malloc(sizeof(struct node));
-		strcpy(temp->name, name);
-		temp->next = *trav;
-		*trav = temp;
-	} else {
-		printf("\tThe name [%s] already exists in the dictionary.\n", name);
-	}
+//initialize temp and *trav to datatype SET
+
+//initialize key variable to hashBrown function
+
+//butterfly loop - initialize trav to address of D[key]; *trav is not NULL and strcmp to *trav's name, name is less than 0; initialize trav to address of *trav's next {}
+
+//if *trav is equal to NULL or strcmp *trav's name to name is greater than 0
+
+//malloc temp 
+
+//strcpy temp's name to name
+
+//initialize temp's next to *trav
+
+//initialize *trav to temp
+
+//else print that name already exists in the dictionary
 }
 
+// This function deletes a name from the dictionary.
+// If name does not exist, print a message that the name does not exist in the dictionary.
 void deleteName(Dictionary D, String name){
-	SET temp, *trav;
-	int key = hashBrown(name);
-	
-	for(trav = &D[key]; *trav != NULL && strcmp((*trav)->name, name) != 0; trav = &(*trav)->next){}
-	
-	if(*trav != NULL){
-		temp = *trav;
-		*trav = temp->next;
-		
-		free(temp);
-	} else {
-		printf("\tThe name [%s] does not exist in the dictionary.\n", name);
-	}
+//initialize temp and *trav
+
+//initialize key variable to hashBrown function
+
+//butterfly loop - initialize trav to address of D[key]; *trav is not null and strcmp of *trav's name and name is not 0; trav is equal to address of *trav's next {}
+
+//if *trav is not NULL
+
+//temp is initialized to *trav
+
+//*trav is equal to temp's next
+
+//else print name does not exist in the dictionary
 }
 
+// This function is completed for you.
 void displayDict(Dictionary D){
 	SET trav;	
 	int i;
@@ -129,6 +144,7 @@ void displayDict(Dictionary D){
 	printf("\n");
 }
 
+// This function is completed for you.
 void populateDict(Dictionary D){
 	int i;
 	
